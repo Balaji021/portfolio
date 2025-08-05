@@ -54,15 +54,25 @@
   // Show protection message
   function showProtectionMessage() {
     const message = document.createElement('div');
-    // message.style.cssText = `
-    //   position: fixed;
-    //   top: 50%;
-    //   left: 50%;
-    //   transform: translate(-50%, -50%);
-    //   background: rgba(0, 0, 0, 0.9);
-    //   color: white;
-    //   padding: 20px;
-    //   border-radius: 10p`;
+    message.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 10000;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      max-width: 300px;
+    `;
+    message.innerHTML = `
+      <h3>⚠️ Protected Content</h3>
+      <p>This portfolio is protected by copyright law.</p>
+      <p>© 2024 Balaji S. All rights reserved.</p>
+    `;
     
     document.body.appendChild(message);
     
@@ -75,17 +85,7 @@
   
   // Add watermark to all images
   function addImageWatermarks() {
-    constx;
-    //   z-index: 10000;
-    //   font-family: Arial, sans-serif;
-    //   text-align: center;
-    //   max-width: 300px;
-    // `;
-    // message.innerHTML = `
-      // <h3>⚠️ Protected Content</h3>
-      // <p>This portfolio is protected by copyright law.</p>
-      // <p>© 2024 Balaji S. All rights reserved.</p>
-    //  images = document.querySelectorAll('img');
+    const images = document.querySelectorAll('img');
     images.forEach(img => {
       img.style.position = 'relative';
       img.addEventListener('load', function() {
