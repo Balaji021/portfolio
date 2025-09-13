@@ -4,6 +4,7 @@ import { Float, OrbitControls, Text } from '@react-three/drei';
 import { useState, useRef } from 'react';
 import * as THREE from 'three';
 import ParticleBackground from './ParticleBackground';
+import { useDeviceDetection, getPerformanceConfig } from '@/hooks/useDeviceDetection';
 
 const AnimatedSkillIndicator = ({ skill, position }: { skill: any; position: [number, number, number] }) => {
   const indicatorRef = useRef<THREE.Group>(null);
@@ -138,6 +139,10 @@ const SkillIcon = ({ skill, position, delay }: { skill: any; position: [number, 
 };
 
 const Skills3D = () => {
+  const deviceInfo = useDeviceDetection();
+  const performanceConfig = getPerformanceConfig(deviceInfo);
+  const [webGLError, setWebGLError] = useState(false);
+
   const skills = [
     { name: 'React', color: '#61DAFB', level: 95 },
     { name: 'Node.js', color: '#339933', level: 90 },
@@ -147,17 +152,57 @@ const Skills3D = () => {
     { name: 'AWS', color: '#FF9900', level: 80 },
   ];
 
+  // Fallback for low-end devices or no WebGL support
+  if (!performanceConfig.enable3D || webGLError) {
+    return (
+      <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-primary/10 to-secondary/10">
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center text-white p-8">
+            <div className="text-4xl mb-4">🎯</div>
+            <p className="text-lg mb-2">Interactive Skills View</p>
+            <p className="text-sm text-gray-300 mb-6">3D visualization not available on this device</p>
+            <div className="grid grid-cols-2 gap-4">
+              {skills.map((skill, index) => (
+                <div key={skill.name} className="text-center">
+                  <div 
+                    className="w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold"
+                    style={{ backgroundColor: skill.color }}
+                  >
+                    {skill.name.charAt(0)}
+                  </div>
+                  <p className="text-xs">{skill.name}</p>
+                  <div className="w-full bg-gray-700 rounded-full h-1 mt-1">
+                    <div 
+                      className="h-1 rounded-full transition-all duration-1000"
+                      style={{ 
+                        width: `${skill.level}%`, 
+                        backgroundColor: skill.color 
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10">
       <Canvas 
-        camera={{ position: [0, 0, 15], fov: 50 }}
+        camera={{ 
+          position: [0, 0, deviceInfo.isMobile ? 12 : 15], 
+          fov: deviceInfo.isMobile ? 60 : 50 
+        }}
         gl={{ 
-          antialias: false, 
+          antialias: performanceConfig.antialias, 
           alpha: true,
-          powerPreference: "high-performance",
+          powerPreference: performanceConfig.powerPreference,
           preserveDrawingBuffer: false
         }}
-        dpr={[1, 2]}
+        dpr={performanceConfig.dpr as [number, number]}
         onError={(error) => {
           console.error('Three.js Canvas Error:', error);
           setWebGLError(true);
@@ -172,16 +217,16 @@ const Skills3D = () => {
           </div>
         }
       >
-        <ambientLight intensity={0.8} />
-        <pointLight position={[20, 20, 20]} intensity={1.5} />
-        <pointLight position={[-20, -20, -20]} intensity={1} color="#8b5cf6" />
-        <pointLight position={[0, 0, 15]} intensity={0.8} color="#06b6d4" />
-        <directionalLight position={[0, 10, 0]} intensity={0.5} />
+        <ambientLight intensity={deviceInfo.isMobile ? 0.5 : 0.8} />
+        <pointLight position={[20, 20, 20]} intensity={deviceInfo.isMobile ? 0.8 : 1.5} />
+        <pointLight position={[-20, -20, -20]} intensity={deviceInfo.isMobile ? 0.5 : 1} color="#8b5cf6" />
+        <pointLight position={[0, 0, 15]} intensity={deviceInfo.isMobile ? 0.4 : 0.8} color="#06b6d4" />
+        <directionalLight position={[0, 10, 0]} intensity={deviceInfo.isMobile ? 0.3 : 0.5} />
         
         {skills.map((skill, index) => {
           const angle = (index / skills.length) * Math.PI * 2;
-          const radius = 4;
-          const height = Math.sin(angle * 2) * 2;
+          const radius = deviceInfo.isMobile ? 3 : 4;
+          const height = Math.sin(angle * 2) * (deviceInfo.isMobile ? 1 : 2);
           const position: [number, number, number] = [
             Math.cos(angle) * radius,
             height,
@@ -198,27 +243,26 @@ const Skills3D = () => {
         })}
         
         <OrbitControls
-          enableZoom={true}
+          enableZoom={!deviceInfo.isMobile}
           enablePan={false}
           autoRotate
-          autoRotateSpeed={1.5}
+          autoRotateSpeed={deviceInfo.isMobile ? 0.8 : 1.5}
           maxPolarAngle={Math.PI / 1.5}
           minPolarAngle={Math.PI / 3}
-          maxDistance={20}
-          minDistance={8}
+          maxDistance={deviceInfo.isMobile ? 15 : 20}
+          minDistance={deviceInfo.isMobile ? 6 : 8}
         />
       </Canvas>
       
-      {/* Overlay with instructions */}
-      <div className="absolute top-4 left-4 glass backdrop-blur-xl rounded-lg px-3 py-2 text-white text-sm border border-white/20">
-        <div className="flex items-center space-x-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span>Drag to rotate • Scroll to zoom</span>
+      {/* Overlay with instructions - hidden on mobile */}
+      {!deviceInfo.isMobile && (
+        <div className="absolute top-4 left-4 glass backdrop-blur-xl rounded-lg px-3 py-2 text-white text-sm border border-white/20">
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span>Drag to rotate • Scroll to zoom</span>
+          </div>
         </div>
-      </div>
-      
-      {/* Legend */}
-      
+      )}
     </div>
   );
 };

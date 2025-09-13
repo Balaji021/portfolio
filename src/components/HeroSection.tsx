@@ -4,8 +4,11 @@ import { ArrowDown, Download, Mail } from 'lucide-react';
 import ParticleBackground from './ParticleBackground';
 import FloatingShape from './FloatingShape';
 import TransparentParticleBackground from './TransparentParticleBackground';
+import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 
 const HeroSection = () => {
+  const deviceInfo = useDeviceDetection();
+  
   const scrollToNext = () => {
     const aboutSection = document.getElementById('about');
     if (aboutSection) {
@@ -17,13 +20,24 @@ const HeroSection = () => {
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <ParticleBackground id="heroParticles" config="hero" />
       
-      {/* 3D Floating Shapes */}
-      <div className="absolute top-20 right-20 w-32 h-32 opacity-60">
-        <FloatingShape />
-      </div>
-      <div className="absolute bottom-20 left-20 w-24 h-24 opacity-40">
-        <FloatingShape />
-      </div>
+      {/* 3D Floating Shapes - Responsive positioning */}
+      {!deviceInfo.isMobile && (
+        <>
+          <div className="absolute top-20 right-20 w-32 h-32 opacity-60">
+            <FloatingShape />
+          </div>
+          <div className="absolute bottom-20 left-20 w-24 h-24 opacity-40">
+            <FloatingShape />
+          </div>
+        </>
+      )}
+      
+      {/* Mobile-optimized floating shapes */}
+      {deviceInfo.isMobile && (
+        <div className="absolute top-10 right-10 w-16 h-16 opacity-40">
+          <FloatingShape />
+        </div>
+      )}
 
       <div className="container mx-auto px-6 z-10">
         <div className="text-center max-w-4xl mx-auto">
@@ -40,7 +54,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              John Doe
+              Balaji S
             </motion.h1>
             <motion.p 
               className="text-xl md:text-2xl text-muted-foreground mb-2"
@@ -48,7 +62,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              Full Stack Developer
+              Software Engineer
             </motion.p>
             <motion.p 
               className="text-lg text-muted-foreground max-w-2xl mx-auto"

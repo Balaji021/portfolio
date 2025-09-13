@@ -73,7 +73,7 @@ const AboutSection = () => {
           >
             <Card className="glass p-8 hover:shadow-glow-primary transition-all duration-300">
               <div className="space-y-4">
-                <h3 className="text-2xl font-bold text-primary">Hello! I'm John</h3>
+                <h3 className="text-2xl font-bold text-primary">Hello! I'm Balaji</h3>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   I'm a passionate full-stack developer with over 5 years of experience creating 
                   beautiful, functional, and user-centered digital experiences. I love working 

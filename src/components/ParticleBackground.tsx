@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useDeviceDetection, getPerformanceConfig } from '@/hooks/useDeviceDetection';
 
 declare global {
   interface Window {
@@ -13,8 +14,15 @@ interface ParticleBackgroundProps {
 
 const ParticleBackground = ({ id, config = 'default' }: ParticleBackgroundProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const deviceInfo = useDeviceDetection();
+  const performanceConfig = getPerformanceConfig(deviceInfo);
 
   useEffect(() => {
+    // Skip particles on low-end devices
+    if (!performanceConfig.enable3D) {
+      return;
+    }
+
     const loadParticles = async () => {
       // Load particles.js script
       if (!window.particlesJS) {
@@ -28,14 +36,22 @@ const ParticleBackground = ({ id, config = 'default' }: ParticleBackgroundProps)
     };
 
     const initializeParticles = () => {
+      // Adjust particle count based on device capabilities
+      const getParticleCount = (baseCount: number) => {
+        if (deviceInfo.isLowEnd) return Math.floor(baseCount * 0.3);
+        if (deviceInfo.isMobile) return Math.floor(baseCount * 0.6);
+        if (deviceInfo.isTablet) return Math.floor(baseCount * 0.8);
+        return baseCount;
+      };
+
       const configs = {
         default: {
           particles: {
             number: {
-              value: 100,
+              value: getParticleCount(100),
               density: {
                 enable: true,
-                value_area: 800
+                value_area: deviceInfo.isMobile ? 1200 : 800
               }
             },
             color: {
@@ -473,6 +489,17 @@ const ParticleBackground = ({ id, config = 'default' }: ParticleBackgroundProps)
 
     loadParticles();
   }, [id, config]);
+
+  // Fallback for low-end devices
+  if (!performanceConfig.enable3D) {
+    return (
+      <div
+        ref={containerRef}
+        id={id}
+        className="absolute inset-0 w-full h-full -z-10 bg-gradient-to-br from-primary/5 to-secondary/5"
+      />
+    );
+  }
 
   return (
     <div
