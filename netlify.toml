@@ -1,0 +1,8 @@
+# netlify.toml
+[build]
+  # Install dependencies with legacy peer deps to avoid vite conflict
+  command = "npm install --legacy-peer-deps && npm run build"
+  # Set the output folder for Vite production build
+  publish = "dist"
+
+[dev]
