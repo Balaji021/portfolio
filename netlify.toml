@@ -1,8 +1,16 @@
 # netlify.toml
 [build]
-  # Install dependencies with legacy peer deps to avoid vite conflict
-  command = "npm install --legacy-peer-deps && npm run build"
+  # Install dependencies and build with fallback for peer deps
+  command = "npm install && npm run build || npm run build:netlify"
   # Set the output folder for Vite production build
   publish = "dist"
+
+[build.environment]
+  # Use Node.js 18 for better compatibility
+  NODE_VERSION = "18"
+  # Disable npm fund messages and warnings
+  NPM_CONFIG_FUND = "false"
+  NPM_CONFIG_AUDIT = "false"
+  NPM_CONFIG_UPDATE_NOTIFIER = "false"
 
 [dev]
