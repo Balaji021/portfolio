@@ -1,0 +1,113 @@
+import { motion } from 'framer-motion';
+import { Card } from '@/components/ui/card';
+import ParticleBackground from './ParticleBackground';
+import FloatingShape from './FloatingShape';
+
+const AboutSection = () => {
+  return (
+    <section id="about" className="relative min-h-screen py-20 flex items-center">
+      <ParticleBackground id="aboutParticles" config="minimal" />
+      
+      {/* 3D Floating Shapes */}
+      <div className="absolute top-20 right-20 w-24 h-24 opacity-30">
+        <FloatingShape />
+      </div>
+      <div className="absolute bottom-20 left-20 w-20 h-20 opacity-20">
+        <FloatingShape />
+      </div>
+      <div className="absolute top-1/2 right-10 w-16 h-16 opacity-25">
+        <FloatingShape />
+      </div>
+      
+      <div className="container mx-auto px-6 z-10">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-5xl md:text-6xl font-bold gradient-text mb-6">About Me</h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Passionate developer with a love for creating innovative solutions
+          </p>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+          {/* Profile Image */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="relative w-80 h-80 mx-auto">
+              <div className="absolute inset-0 bg-gradient-hero rounded-full opacity-20 animate-pulse" />
+              <div className="relative w-full h-full rounded-full overflow-hidden glass border-4 border-primary/30 hover:border-primary/60 transition-all duration-300">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                  alt="Profile"
+                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = document.createElement('div');
+                    fallback.className = 'w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-6xl';
+                    fallback.innerHTML = '👨‍💻';
+                    target.parentNode?.appendChild(fallback);
+                  }}
+                />
+              </div>
+              <div className="absolute -inset-2 bg-gradient-hero rounded-full opacity-30 blur-xl -z-10 animate-glow-pulse" />
+            </div>
+          </motion.div>
+
+          {/* Bio Content */}
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <Card className="glass p-8 hover:shadow-glow-primary transition-all duration-300">
+              <div className="space-y-4">
+                <h3 className="text-2xl font-bold text-primary">Hello! I'm John</h3>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  I'm a passionate full-stack developer with over 5 years of experience creating 
+                  beautiful, functional, and user-centered digital experiences. I love working 
+                  with modern technologies and turning complex problems into simple, elegant solutions.
+                </p>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  When I'm not coding, you can find me exploring new technologies, contributing to 
+                  open source projects, or sharing my knowledge through articles and tutorials.
+                </p>
+              </div>
+            </Card>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-4">
+              <motion.div
+                className="glass p-6 text-center rounded-lg hover:shadow-glow-secondary transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="text-3xl font-bold gradient-text">50+</div>
+                <div className="text-sm text-muted-foreground">Projects Completed</div>
+              </motion.div>
+              <motion.div
+                className="glass p-6 text-center rounded-lg hover:shadow-glow-accent transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="text-3xl font-bold gradient-text">5+</div>
+                <div className="text-sm text-muted-foreground">Years Experience</div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default AboutSection;
