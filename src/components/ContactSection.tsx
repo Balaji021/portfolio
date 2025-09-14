@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, Youtube } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, FileText } from 'lucide-react';
 import { useState } from 'react';
 import ParticleBackground from './ParticleBackground';
 import FloatingShape from './FloatingShape';
@@ -14,25 +14,42 @@ const ContactSection = () => {
     email: '',
     message: ''
   });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/Balaji021', label: 'GitHub', color: '#333' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/balaji-s-2bb586240', label: 'LinkedIn', color: '#0077B5' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter', color: '#1DA1F2' },
-    { icon: Youtube, href: 'https://youtube.com', label: 'YouTube', color: '#FF0000' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/balajiselvaraj0211', label: 'LinkedIn', color: '#0077B5' },
+    { icon: Instagram, href: 'https://www.instagram.com/black_hawk__2?igsh=cTNwbHYzYWJpc2xz', label: 'Instagram', color: '#E1306C' },
+    { icon: FileText, href: '/Balaji_Resume.pdf', label: 'Resume', color: '#6B7280' },
   ];
 
   const contactInfo = [
-    { icon: Mail, title: 'Email', value: 'balajiselvaraj12@gmail.com', href: 'mailto:balajiselvaraj12@gmail.com' },
+    { icon: Mail, title: 'Email', value: 'balaji12.work@gmail.com', href: 'mailto:balaji12.work@gmail.com' },
     { icon: Phone, title: 'Phone', value: '+91 9360201078', href: 'tel:+919360201078' },
     { icon: MapPin, title: 'Location', value: 'Coimbatore, Tamil Nadu', href: '#' },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Helper to encode form body for Netlify
+  const encode = (data: Record<string, string>) =>
+    Object.keys(data)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission here
-    const mailtoLink = `mailto:balajiselvaraj12@gmail.com?subject=Contact from ${formData.name}&body=${formData.message}`;
-    window.open(mailtoLink);
+    setStatus('submitting');
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({ 'form-name': 'contact', ...formData }),
+      });
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (err) {
+      console.error('Form submit failed', err);
+      setStatus('error');
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -81,7 +98,22 @@ const ContactSection = () => {
             <Card className="glass p-6 sm:p-8 hover:shadow-glow-primary transition-all duration-500">
               <CardContent className="p-0">
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 gradient-text">Send a Message</h3>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Netlify Forms attributes */}
+                <form
+                  name="contact"
+                  method="POST"
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
+                  {/* Hidden inputs required by Netlify */}
+                  <input type="hidden" name="form-name" value="contact" />
+                  <p className="hidden">
+                    <label>
+                      Don’t fill this out if you’re human: <input name="bot-field" />
+                    </label>
+                  </p>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -142,11 +174,15 @@ const ContactSection = () => {
                       type="submit"
                       variant="hero"
                       size="lg"
-                      className="w-full group"
+                      className="w-full group disabled:opacity-60"
+                      disabled={status === 'submitting'}
                     >
                       <Send className="mr-2 group-hover:animate-pulse" />
-                      Send Message
+                      {status === 'submitting' ? 'Sending…' : status === 'success' ? 'Sent!' : 'Send Message'}
                     </Button>
+                    {status === 'error' && (
+                      <p className="mt-2 text-sm text-red-400">Something went wrong. Please try again later.</p>
+                    )}
                   </motion.div>
                 </form>
               </CardContent>

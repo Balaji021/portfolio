@@ -8,17 +8,17 @@ import SkillsSection from '@/components/SkillsSection';
 import CodingProfilesSection from '@/components/CodingProfilesSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection from '@/components/ContactSection';
-import ThemeToggle from '@/components/ThemeToggle';
+import ToolsSection from '@/components/ToolsSection';
 
 const Index = () => {
   return (
     <div className="relative">
-      <ThemeToggle />
       <Navigation />
       <HeroSection />
       <AboutSection />
       <MyJourneySection />
       <SkillsSection />
+      <ToolsSection />
       <CodingProfilesSection />
       <ProjectsSection />
       <ContactSection />

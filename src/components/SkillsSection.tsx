@@ -102,35 +102,55 @@ const FloatingParticles = ({ skill, position }: { skill: any; position: [number,
   );
 };
 
-const SkillIcon = ({ skill, position, delay }: { skill: any; position: [number, number, number]; delay: number }) => {
+const SkillIcon = (
+  { skill, position, delay }: { skill: { name: string; color: string; level: number }; position: [number, number, number]; delay: number }
+) => {
+  // Map level [0-100] to size and glow
+  const size = 0.8 + Math.min(Math.max(skill.level, 0), 100) * 0.003; // 0.8..1.1
+  const glow = 0.2 + Math.min(Math.max(skill.level, 0), 100) * 0.006; // 0.2..0.8
+
+  // Choose geometry variant for visual variety
+  const idx = Math.abs(skill.name.charCodeAt(0) + skill.name.length) % 3;
+
   return (
-    <Float
-      speed={1.5 + Math.random()}
-      rotationIntensity={1}
-      floatIntensity={0.8}
-      floatingRange={[0, 0.5]}
-    >
-      {/* Main 3D shape */}
-      <mesh position={position}>
-        <icosahedronGeometry args={[1, 1]} />
-        <meshStandardMaterial
-          color={skill.color}
-          roughness={0.1}
-          metalness={0.9}
-          emissive={skill.color}
-          emissiveIntensity={0.3}
-        />
-      </mesh>
-      
-      {/* Skill name text */}
+    <Float speed={1.2 + Math.random()} rotationIntensity={0.8} floatIntensity={0.7} floatingRange={[0, 0.5]}>
+      {/* Main 3D shape (varied) */}
+      <group position={position}>
+        {idx === 0 && (
+          <mesh>
+            <icosahedronGeometry args={[size, 1]} />
+            <meshStandardMaterial color={skill.color} roughness={0.15} metalness={0.9} emissive={skill.color} emissiveIntensity={glow} />
+          </mesh>
+        )}
+        {idx === 1 && (
+          <mesh>
+            <octahedronGeometry args={[size, 0]} />
+            <meshStandardMaterial color={skill.color} roughness={0.15} metalness={0.9} emissive={skill.color} emissiveIntensity={glow} />
+          </mesh>
+        )}
+        {idx === 2 && (
+          <mesh rotation={[Math.PI / 4, 0, 0]}>
+            <torusKnotGeometry args={[size * 0.6, size * 0.18, 100, 12]} />
+            <meshStandardMaterial color={skill.color} roughness={0.2} metalness={0.8} emissive={skill.color} emissiveIntensity={glow} />
+          </mesh>
+        )}
+
+        {/* Decorative orbit ring */}
+        <mesh rotation={[Math.PI / 2, 0, 0]}> 
+          <torusGeometry args={[size * 1.4, 0.03, 16, 64]} />
+          <meshStandardMaterial color={skill.color} transparent opacity={0.35} emissive={skill.color} emissiveIntensity={0.2} />
+        </mesh>
+      </group>
+
+      {/* Skill name */}
       <Text
-        position={[position[0], position[1] + 2.5, position[2]]}
-        fontSize={1}
+        position={[position[0], position[1] + 2.2, position[2]]}
+        fontSize={0.9}
         color={skill.color}
         anchorX="center"
         anchorY="middle"
         fontWeight="bold"
-        outlineWidth={0.1}
+        outlineWidth={0.08}
         outlineColor="#000000"
       >
         {skill.name}
@@ -145,12 +165,25 @@ const Skills3D = () => {
   const [webGLError, setWebGLError] = useState(false);
   const [ready, setReady] = useState(false);
   const [showCanvas, setShowCanvas] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Mount canvas slightly later to avoid layout flash and share WebGL contexts better
+  // Mount only when visible in viewport; unmount when offscreen to avoid context contention
   useEffect(() => {
-    const t = setTimeout(() => setShowCanvas(true), 250);
-    return () => clearTimeout(t);
-  }, []);
+    if (!containerRef.current) return;
+    const el = containerRef.current;
+    const io = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        const t = setTimeout(() => setShowCanvas(true), deviceInfo.isMobile ? 150 : 250);
+        return () => clearTimeout(t);
+      } else {
+        setShowCanvas(false);
+        setReady(false);
+      }
+    }, { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [deviceInfo.isMobile]);
 
   // Global mobile 3D lock while Skills 3D is visible
   useEffect(() => {
@@ -167,12 +200,14 @@ const Skills3D = () => {
   }, [showCanvas, deviceInfo.isMobile]);
 
   const skills = [
-    { name: 'React', color: '#61DAFB', level: 95 },
-    { name: 'Node.js', color: '#339933', level: 90 },
-    { name: 'TypeScript', color: '#3178C6', level: 88 },
-    { name: 'Python', color: '#3776AB', level: 85 },
-    { name: 'MongoDB', color: '#47A248', level: 82 },
-    { name: 'AWS', color: '#FF9900', level: 80 },
+    { name: 'Java',        color: '#F89820', level: 90 },   // Oracle Java Orange
+    { name: 'Spring Boot', color: '#6DB33F', level: 85 },   // Spring Green
+    { name: 'DSA',         color: '#8B5CF6', level: 88 },   // Violet (algorithms)
+    { name: 'HTML',        color: '#E34F26', level: 92 },   // HTML5 Orange
+    { name: 'CSS',         color: '#1572B6', level: 88 },   // CSS3 Blue
+    { name: 'MySQL',       color: '#00758F', level: 84 },   // MySQL Teal
+    { name: 'PostgreSQL',  color: '#336791', level: 80 },   // PostgreSQL Blue
+    { name: 'Postman',     color: '#FF6C37', level: 78 },   // Postman Orange
   ];
 
   // Fallback for low-end devices or no WebGL support
@@ -213,7 +248,7 @@ const Skills3D = () => {
   }
 
   return (
-    <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 pointer-events-none select-none">
+    <div ref={containerRef} className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 pointer-events-none select-none">
       {!showCanvas && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
@@ -232,7 +267,19 @@ const Skills3D = () => {
           preserveDrawingBuffer: false
         }}
         dpr={performanceConfig.dpr as [number, number]}
-        onCreated={() => setReady(true)}
+        onCreated={(state) => {
+          setReady(true);
+          const canvas = state.gl.domElement;
+          const onLost = (e: Event) => {
+            e.preventDefault();
+            setReady(false);
+            setShowCanvas(false);
+            setTimeout(() => setShowCanvas(true), 400);
+          };
+          const onRestored = () => setReady(true);
+          canvas.addEventListener('webglcontextlost', onLost as EventListener, { passive: false });
+          canvas.addEventListener('webglcontextrestored', onRestored as EventListener);
+        }}
         onError={(error) => {
           console.error('Three.js Canvas Error:', error);
           setWebGLError(true);
@@ -272,6 +319,22 @@ const Skills3D = () => {
             />
           );
         })}
+
+        {/* Add subtle floating particles around each skill */}
+        {skills.map((skill, index) => {
+          const angle = (index / skills.length) * Math.PI * 2;
+          const radius = deviceInfo.isMobile ? 3 : 4;
+          const height = Math.sin(angle * 2) * (deviceInfo.isMobile ? 1 : 2);
+          const position: [number, number, number] = [
+            Math.cos(angle) * radius,
+            height,
+            Math.sin(angle) * radius,
+          ];
+          return <FloatingParticles key={`p-${skill.name}`} skill={skill} position={position} />;
+        })}
+
+        {/* Ground grid helper for spatial depth */}
+        <gridHelper args={[40, 40, '#1f2937', '#111827']} position={[0, -3, 0]} rotation={[0, 0, 0]} />
         
         <OrbitControls
           enableZoom={!deviceInfo.isMobile}
@@ -309,24 +372,9 @@ const SkillCard = ({ skill, index }: { skill: any; index: number }) => {
       whileHover={{ scale: 1.05, y: -10 }}
       viewport={{ once: true }}
     >
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-semibold">{skill.name}</h3>
-        <span className="text-sm text-primary font-medium">{skill.level}%</span>
+      <div className="flex items-center justify-center">
+        <h3 className="text-lg font-semibold text-center">{skill.name}</h3>
       </div>
-      
-      <div className="w-full bg-muted rounded-full h-2 mb-4">
-        <motion.div
-          className="bg-gradient-hero h-2 rounded-full"
-          initial={{ width: 0 }}
-          whileInView={{ width: `${skill.level}%` }}
-          transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
-          viewport={{ once: true }}
-        />
-      </div>
-      
-      <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-        {skill.description}
-      </p>
     </motion.div>
   );
 };
@@ -338,40 +386,54 @@ const SkillsSection = () => {
   
   const skills = [
     {
-      name: 'Java Programming',
+      name: 'Java',
       level: 90,
       description: 'Object-oriented programming and Spring framework development',
       color: '#F89820'
     },
     {
-      name: 'C Programming',
+      name: 'Spring Boot',
       level: 85,
       description: 'System programming and algorithm implementation',
       color: '#00599C'
     },
     {
-      name: 'Web Development',
+      name: 'HTML & CSS',
       level: 80,
       description: 'HTML, CSS, JavaScript for frontend development',
       color: '#F7DF1E'
     },
     {
-      name: 'Spring Boot',
+      name: 'DSA - Java',
+      level: 78,
+      color: '#8B5CF6'
+    },
+    {
+      name: 'MySQL',
       level: 75,
       description: 'Building enterprise applications with Spring ecosystem',
       color: '#6DB33F'
     },
     {
-      name: 'Database Management',
+      name: 'Methodology - SDLC',
       level: 70,
-      description: 'MongoDB, MySQL, and XAMPP for data management',
       color: '#47A248'
     },
     {
-      name: 'Android Development',
+      name: 'C Programming',
       level: 65,
-      description: 'Mobile app development using Android Studio',
+      description: 'C programming for system programming',
       color: '#3DDC84'
+    },
+    {
+      name: 'PostgreSQL',
+      level: 70,
+      color: '#336791'
+    },
+    {
+      name: 'Postman',
+      level: 65,
+      color: '#FF6C37'
     },
   ];
 
@@ -385,11 +447,11 @@ const SkillsSection = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ amount: 0.2 }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">Skills & Expertise</h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
-            Technologies and tools I work with to bring ideas to life
+            Core technical competencies
           </p>
           
           <div className="flex justify-center space-x-3 sm:space-x-4 px-4">
@@ -421,9 +483,10 @@ const SkillsSection = () => {
         {view3D ? (
           <motion.div
             className="h-[400px] sm:h-[500px] w-full max-w-4xl mx-auto px-4"
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9, y: 50 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
+            viewport={{ amount: 0.25 }}
           >
             {webGLError ? (
               <div className="h-full w-full glass rounded-2xl border border-white/20 flex items-center justify-center backdrop-blur-xl">

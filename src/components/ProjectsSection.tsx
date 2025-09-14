@@ -32,33 +32,43 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
     >
       <Card className="glass overflow-hidden h-full hover:shadow-glow-primary transition-all duration-500 transform hover:-translate-y-2 hover:rotate-1">
         <div className="relative overflow-hidden">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              const fallback = document.createElement('div');
-              fallback.className = 'w-full h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-4xl';
-              fallback.innerHTML = '🚀';
-              target.parentNode?.appendChild(fallback);
-            }}
-          />
+          {/* Aspect ratio wrapper for consistent thumbnails */}
+          <div className="relative w-full aspect-[4/3] overflow-hidden">
+            {project.image ? (
+              <img
+                src={project.image.startsWith('http') || project.image.startsWith('/') ? project.image : `/${project.image}`}
+                alt={project.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const fallback = document.createElement('div');
+                  fallback.className = 'absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-4xl';
+                  fallback.innerHTML = '🚀';
+                  target.parentNode?.appendChild(fallback);
+                }}
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-4xl">🚀</div>
+            )}
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
-          {/* Floating Action Buttons */}
+          {/* Floating Action Button (GitHub only) */}
           <motion.div
-            className="absolute top-4 right-4 flex space-x-2"
+            className="absolute top-4 right-4 flex"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Button size="icon" variant="glass" className="w-8 h-8">
+            <Button
+              size="icon"
+              variant="glass"
+              className="w-8 h-8"
+              aria-label="Open GitHub repository"
+              onClick={() => window.open(project.github, '_blank')}
+            >
               <Github size={16} />
-            </Button>
-            <Button size="icon" variant="glass" className="w-8 h-8">
-              <ExternalLink size={16} />
             </Button>
           </motion.div>
 
@@ -88,13 +98,15 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             ))}
           </div>
           
-          <div className="flex space-x-3">
-            <Button variant="neon" size="sm" className="flex-1">
-              <Eye className="w-4 h-4 mr-2" />
-              View Live
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Github className="w-4 h-4" />
+          <div className="flex">
+            <Button
+              variant="neon"
+              size="sm"
+              className="flex-1"
+              onClick={() => window.open(project.github, '_blank')}
+            >
+              <Github className="w-4 h-4 mr-2" />
+              View on GitHub
             </Button>
           </div>
         </CardContent>
@@ -107,62 +119,42 @@ const ProjectsSection = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment processing, and admin dashboard.",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop",
-      tech: ["React", "Node.js", "MongoDB", "Stripe"],
-      github: "https://github.com",
+      title: "Course Registration System-Spring Boot",
+      description: "Developed a simple and efficient Course Registration System that allows students to view available courses, check enrolled students, and register for courses seamlessly. The system leverages Spring Boot for backend services, connects to a MySQL database for data management, and provides a user-friendly frontend interface. Demonstrates CRUD operations, RESTful APIs, and basic authentication functionality.",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=900&fit=crop",
+      tech: ["Java", "Spring", "Spring Boot", "MySQL", "Postman"],
+      github: "https://github.com/Balaji021/Course-Registration-System",
       live: "https://example.com",
       featured: true
     },
     {
       id: 2,
-      title: "Task Management App",
-      description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=300&fit=crop",
-      tech: ["Next.js", "Socket.io", "PostgreSQL", "Prisma"],
-      github: "https://github.com",
+      title: "File Encryption & Decryption using ECC with QKD",
+      description: "Created a secure multi-layered authentication system using Quantum Key Distribution (QKD), facial recognition, and passwords for medical data. ECC + QKD enables quantum key exchange and encryption. At 35–40% CPU usage, a 10 MB file was encrypted in 3.2 seconds, ensuring high efficiency and compliance with healthcare regulations.",
+      image: "encryption.jpeg",
+      tech: ["React", "Node.js", "Firebase", "OpenCV", "ECC", "QKD"],
+      github: "https://github.com/Balaji021/ecc_project",
       live: "https://example.com",
-      featured: false
+      featured: true
     },
     {
       id: 3,
-      title: "Weather Dashboard",
-      description: "A responsive weather application with geolocation, forecasts, and interactive maps. Built with modern web technologies.",
-      image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=400&h=300&fit=crop",
-      tech: ["Vue.js", "OpenWeather API", "Chart.js", "PWA"],
-      github: "https://github.com",
+      title: "Brain Tumor Classification - Machine Learning",
+      description: "Developed an ensemble learning model combining VGG-16 and EfficientNet-B0 for brain tumor classification. Applied data augmentation to improve accuracy, achieving 93% accuracy, making it suitable for medical diagnostics research.",
+      image: "brainimage.jpeg",
+      tech: ["Python", "VGG-16", "EfficientNet-B0"],
+      github: "https://github.com/Balaji021/brain-tumor-classification",
       live: "https://example.com",
       featured: false
     },
     {
       id: 4,
-      title: "AI Chat Interface",
-      description: "An intelligent chat interface powered by AI with natural language processing, context awareness, and custom responses.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop",
-      tech: ["React", "Python", "OpenAI API", "WebSocket"],
-      github: "https://github.com",
-      live: "https://example.com",
-      featured: true
-    },
-    {
-      id: 5,
-      title: "Portfolio Website",
-      description: "A stunning portfolio website with 3D animations, particle effects, and smooth transitions. Built with modern frameworks.",
-      image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=300&fit=crop",
-      tech: ["React", "Three.js", "Framer Motion", "Tailwind"],
-      github: "https://github.com",
-      live: "https://example.com",
-      featured: false
-    },
-    {
-      id: 6,
-      title: "Data Visualization Tool",
-      description: "Interactive data visualization platform with multiple chart types, real-time updates, and export capabilities.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-      tech: ["D3.js", "React", "Node.js", "Excel Export"],
-      github: "https://github.com",
-      live: "https://example.com",
+      title: "Cowrie Shell Dataset Creation for Classification Tasks - Multimodal classification",
+      description: "Created a novel cowrie shell image dataset for classification tasks. Data augmentation was applied to enhance the dataset diversity, supporting research in machine learning classification tasks.",
+      image: "cowrie.png",
+      tech: ["Python", "Jupyter Notebook", "Camera"],
+      github: "https://www.kaggle.com/datasets/oswaldc/cowrie-shells-toss-dataset-image-classification",
+      live: "https://www.kaggle.com/datasets/oswaldc/cowrie-shells-toss-dataset-image-classification",
       featured: false
     }
   ];
@@ -193,9 +185,9 @@ const ProjectsSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">Featured Projects</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">My Projects</h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
-            A showcase of my recent work and creative solutions
+              A glimpse into my projects and the ideas behind them
           </p>
         </motion.div>
 
@@ -212,10 +204,6 @@ const ProjectsSection = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <Button variant="hero" size="lg" className="group">
-            <Github className="mr-2 group-hover:animate-spin" />
-            View All Projects on GitHub
-          </Button>
         </motion.div>
       </div>
     </section>
