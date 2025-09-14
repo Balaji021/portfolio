@@ -34,25 +34,27 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
         const nextIndex = (currentIndex + 1) % loadingMessages.length;
         return loadingMessages[nextIndex];
       });
-    }, 800);
+    }, 1100);
 
     // Less frequent progress updates
     const progressInterval = setInterval(() => {
       setProgress(prev => {
-        if (prev >= 95) {
-          return Math.min(prev + Math.random() * 1.5 + 0.5, 100);
-        } else if (prev >= 80) {
-          return prev + Math.random() * 2 + 1;
+        if (prev >= 96) {
+          return Math.min(prev + (Math.random() * 0.5 + 0.2), 100);
+        } else if (prev >= 85) {
+          return prev + (Math.random() * 0.8 + 0.3);
+        } else if (prev >= 60) {
+          return prev + (Math.random() * 1.2 + 0.6);
         } else {
-          return prev + Math.random() * 3 + 2;
+          return prev + (Math.random() * 1.8 + 1.0);
         }
       });
-    }, isLowEnd ? 200 : 150);
+    }, isLowEnd ? 180 : 110);
 
     // Ensure we reach 100% after a certain time
     const completionTimer = setTimeout(() => {
       setProgress(100);
-    }, 2500);
+    }, 3800);
 
     return () => {
       clearInterval(messageInterval);
@@ -102,7 +104,7 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
                 />
               )}
 
-              {/* Main Logo */}
+              {/* Main Logo (Monogram) */}
               <motion.div
                 className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto bg-gradient-to-br from-primary via-secondary to-primary rounded-full flex items-center justify-center shadow-2xl"
                 animate={{ 
@@ -119,7 +121,7 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
                 }}
               >
                 <motion.div
-                  className="text-3xl sm:text-4xl"
+                  className="text-3xl sm:text-4xl font-extrabold text-black/80 dark:text-white"
                   animate={isLowEnd ? {} : { 
                     y: [0, -4, 0]
                   }}
@@ -129,7 +131,7 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
                     ease: "easeInOut" 
                   }}
                 >
-                  👨‍💻
+                  B
                 </motion.div>
               </motion.div>
 
@@ -167,13 +169,21 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
               transition={{ delay: 0.6, duration: 0.5 }}
             >
               <motion.h1
-                className="text-3xl sm:text-4xl font-bold gradient-text mb-2"
+                className="text-3xl sm:text-4xl font-extrabold gradient-text mb-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.4 }}
               >
-                Portfolio
+                Balaji S
               </motion.h1>
+              <motion.p
+                className="text-sm sm:text-base text-gray-300"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.4 }}
+              >
+                Crafting warm, immersive web experiences
+              </motion.p>
               
               <motion.h2
                 className="text-base sm:text-lg text-gray-300 mb-4"
