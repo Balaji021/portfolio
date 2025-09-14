@@ -85,7 +85,7 @@ const HeroSection = () => {
               View My Work
             </Button>
             <Button variant="neon" size="lg" asChild>
-              <a href="Balaji_Resume.pdf" download>
+              <a href="/Balaji_Resume.pdf" download="Balaji_Resume.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">
                 <Download className="mr-2" />
                 Download Resume
               </a>
