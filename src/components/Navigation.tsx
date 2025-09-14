@@ -91,10 +91,7 @@ export default function Navigation() {
               </button>
             );
           })}
-          {/* Inline theme toggle on desktop */}
-          <div className="hidden md:block ml-2">
-            <ThemeToggle inline />
-          </div>
+          {/* theme toggle moved to fixed top-right for desktop */}
         </div>
       </motion.nav>
 
@@ -112,6 +109,11 @@ export default function Navigation() {
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.div>
       </motion.button>
+
+      {/* Desktop fixed theme toggle (top-right) */}
+      <div className="hidden md:block fixed top-4 right-4 z-50">
+        <ThemeToggle inline />
+      </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -157,15 +159,17 @@ export default function Navigation() {
                     </motion.button>
                   );
                 })}
-                {/* Mobile inline theme toggle */}
-                <div className="pt-2 border-t border-white/10 mt-2 flex justify-end">
-                  <ThemeToggle inline />
-                </div>
+                {/* Mobile inline theme toggle removed to avoid duplication */}
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile floating theme toggle (bottom-right) */}
+      <div className="fixed bottom-4 right-4 z-50 md:hidden">
+        <ThemeToggle inline />
+      </div>
     </>
   );
 }

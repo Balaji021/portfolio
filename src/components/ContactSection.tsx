@@ -26,10 +26,11 @@ const ContactSection = () => {
   ];
 
   const contactInfo = [
-    { icon: Mail, title: 'Email', value: 'balaji12.work@gmail.com', href: 'mailto:balaji12.work@gmail.com' },
+    { icon: Mail, title: 'Email', value: 'balaji12.work@gmail.com', href: '#' },
     { icon: Phone, title: 'Phone', value: '+91 9360201078', href: 'tel:+919360201078' },
     { icon: MapPin, title: 'Location', value: 'Coimbatore, Tamil Nadu', href: '#' },
   ];
+  const [copied, setCopied] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -244,6 +245,15 @@ const ContactSection = () => {
                         transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.02 }}
+                        onClick={(e) => {
+                          if (info.title === 'Email') {
+                            e.preventDefault();
+                            navigator.clipboard.writeText(info.value).then(() => {
+                              setCopied(true);
+                              setTimeout(() => setCopied(false), 1500);
+                            });
+                          }
+                        }}
                       >
                         <div className="p-2 rounded-full bg-primary/20 group-hover:bg-primary/30 transition-all duration-300">
                           <IconComponent className="w-5 h-5 text-primary" />
@@ -253,6 +263,9 @@ const ContactSection = () => {
                           <div className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                             {info.value}
                           </div>
+                          {info.title === 'Email' && copied && (
+                            <div className="text-xs text-primary mt-1">Copied to clipboard</div>
+                          )}
                         </div>
                       </motion.a>
                     );
