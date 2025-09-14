@@ -61,11 +61,25 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
   const performanceConfig = getPerformanceConfig(deviceInfo);
   const [ready, setReady] = useState(false);
   const [showCanvas, setShowCanvas] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Mount Canvas a bit later to prevent gray square flash on first paint
+  // Only mount when in viewport; also short delay to avoid initial flash
   useEffect(() => {
-    const t = setTimeout(() => setShowCanvas(true), 250);
-    return () => clearTimeout(t);
+    if (!containerRef.current) return;
+    const el = containerRef.current;
+    const io = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        const t = setTimeout(() => setShowCanvas(true), 250);
+        return () => clearTimeout(t);
+      } else {
+        // Unmount when offscreen to free WebGL context on mobile
+        setShowCanvas(false);
+        setReady(false);
+      }
+    }, { threshold: 0.1 });
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   // Fallback for low-end devices or no WebGL support
@@ -80,7 +94,7 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
   }
 
   return (
-    <div className={`w-full h-full ${className} pointer-events-none select-none`}>
+    <div ref={containerRef} className={`w-full h-full ${className} pointer-events-none select-none`}>
       {!showCanvas && (
         <div className="w-full h-full flex items-center justify-center">
           <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
@@ -96,7 +110,20 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
           preserveDrawingBuffer: false
         }}
         dpr={performanceConfig.dpr as [number, number]}
-        onCreated={() => setReady(true)}
+        onCreated={(state) => {
+          setReady(true);
+          const canvas = state.gl.domElement;
+          const onLost = (e: Event) => {
+            e.preventDefault();
+            setReady(false);
+            setShowCanvas(false);
+            // Attempt soft remount shortly after loss
+            setTimeout(() => setShowCanvas(true), 400);
+          };
+          const onRestored = () => setReady(true);
+          canvas.addEventListener('webglcontextlost', onLost as EventListener, { passive: false });
+          canvas.addEventListener('webglcontextrestored', onRestored as EventListener);
+        }}
         onError={(error) => {
           console.error('FloatingShape Canvas Error:', error);
         }}
