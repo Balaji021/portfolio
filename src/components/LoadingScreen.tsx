@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 
 interface LoadingScreenProps {
   isLoading: boolean;
@@ -8,14 +9,17 @@ interface LoadingScreenProps {
 const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
   const [loadingMessage, setLoadingMessage] = useState('Initializing...');
   const [progress, setProgress] = useState(0);
+  const deviceInfo = useDeviceDetection();
 
-  const loadingMessages = [
+  const loadingMessages = useMemo(() => [
     'Initializing...',
-    'Loading 3D assets...',
-    'Preparing animations...',
-    'Setting up particles...',
+    'Loading assets...',
+    'Preparing...',
     'Almost ready...'
-  ];
+  ], []);
+
+  // Reduce animation complexity for mobile/low-end devices
+  const isLowEnd = deviceInfo.isLowEnd || deviceInfo.isMobile;
 
   useEffect(() => {
     if (!isLoading) return;
@@ -23,28 +27,27 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
     // Reset progress when loading starts
     setProgress(0);
 
+    // Slower message updates for better performance
     const messageInterval = setInterval(() => {
       setLoadingMessage(prev => {
         const currentIndex = loadingMessages.indexOf(prev);
         const nextIndex = (currentIndex + 1) % loadingMessages.length;
         return loadingMessages[nextIndex];
       });
-    }, 600);
+    }, 800);
 
+    // Less frequent progress updates
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 95) {
-          // Slow down near the end
-          return Math.min(prev + Math.random() * 2 + 0.5, 100);
+          return Math.min(prev + Math.random() * 1.5 + 0.5, 100);
         } else if (prev >= 80) {
-          // Medium speed in the middle
-          return prev + Math.random() * 3 + 1;
+          return prev + Math.random() * 2 + 1;
         } else {
-          // Faster at the beginning
-          return prev + Math.random() * 5 + 2;
+          return prev + Math.random() * 3 + 2;
         }
       });
-    }, 150);
+    }, isLowEnd ? 200 : 150);
 
     // Ensure we reach 100% after a certain time
     const completionTimer = setTimeout(() => {
@@ -56,7 +59,7 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
       clearInterval(progressInterval);
       clearTimeout(completionTimer);
     };
-  }, [isLoading]);
+  }, [isLoading, loadingMessages, isLowEnd]);
 
   return (
     <AnimatePresence>

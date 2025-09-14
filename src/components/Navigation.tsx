@@ -91,7 +91,7 @@ const Navigation = () => {
 
       {/* Mobile Navigation Button */}
       <motion.button
-        className="fixed top-6 right-6 z-50 bg-black/20 backdrop-blur-xl border border-white/10 rounded-full p-3 md:hidden shadow-2xl text-white hover:bg-white/10 transition-all duration-300"
+        className="fixed top-4 right-4 z-50 bg-black/20 backdrop-blur-xl border border-white/10 rounded-full p-2.5 md:hidden shadow-2xl text-white hover:bg-white/10 transition-all duration-300"
         onClick={() => setIsOpen(!isOpen)}
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -119,7 +119,7 @@ const Navigation = () => {
             onClick={() => setIsOpen(false)}
           >
             <motion.div
-              className="absolute right-6 top-20 bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 min-w-[280px] shadow-2xl"
+              className="absolute right-4 top-16 bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 min-w-[260px] sm:min-w-[280px] max-w-[calc(100vw-2rem)] shadow-2xl"
               initial={{ opacity: 0, x: 50, scale: 0.8 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 50, scale: 0.8 }}

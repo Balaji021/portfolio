@@ -185,21 +185,21 @@ const ProjectsSection = () => {
         <FloatingShape />
       </div>
       
-      <div className="container mx-auto px-6 z-10">
+      <div className="container mx-auto px-4 sm:px-6 z-10">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl md:text-6xl font-bold gradient-text mb-6">Featured Projects</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">Featured Projects</h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
             A showcase of my recent work and creative solutions
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

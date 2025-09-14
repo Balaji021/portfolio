@@ -39,17 +39,17 @@ const HeroSection = () => {
         </div>
       )}
 
-      <div className="container mx-auto px-6 z-10">
+      <div className="container mx-auto px-4 sm:px-6 z-10">
         <div className="text-center max-w-4xl mx-auto">
           {/* Animated Title */}
           <motion.div
-            className="mb-8"
+            className="mb-6 sm:mb-8"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <motion.h1 
-              className="text-6xl md:text-8xl font-bold mb-4 gradient-text"
+              className="text-4xl sm:text-6xl md:text-8xl font-bold mb-3 sm:mb-4 gradient-text leading-tight"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
@@ -57,7 +57,7 @@ const HeroSection = () => {
               Balaji S
             </motion.h1>
             <motion.p 
-              className="text-xl md:text-2xl text-muted-foreground mb-2"
+              className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -65,7 +65,7 @@ const HeroSection = () => {
               Software Engineer
             </motion.p>
             <motion.p 
-              className="text-lg text-muted-foreground max-w-2xl mx-auto"
+              className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
@@ -76,16 +76,16 @@ const HeroSection = () => {
 
           {/* Animated Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 sm:mb-16 px-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
           >
-            <Button variant="hero" size="lg" className="group">
+            <Button variant="hero" size="lg" className="group w-full sm:w-auto">
               <Mail className="mr-2 group-hover:animate-pulse" />
               Hire Me
             </Button>
-            <Button variant="neon" size="lg" className="group">
+            <Button variant="neon" size="lg" className="group w-full sm:w-auto">
               <Download className="mr-2 group-hover:animate-bounce" />
               View Projects
             </Button>

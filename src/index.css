@@ -116,6 +116,30 @@ All colors MUST be HSL.
   html {
     scroll-behavior: smooth;
   }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 768px) {
+    body {
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Improve touch targets */
+    button, a, input, textarea, select {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Better mobile scrolling */
+    .overflow-x-hidden {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Prevent zoom on input focus */
+    input, textarea, select {
+      font-size: 16px;
+    }
+  }
 }
 
 @layer components {
@@ -230,5 +254,26 @@ All colors MUST be HSL.
   
   .animate-rotate-slow {
     animation: rotate-slow 20s linear infinite;
+  }
+
+  /* Mobile-specific utilities */
+  .mobile-padding {
+    @apply px-4 sm:px-6;
+  }
+  
+  .mobile-text-responsive {
+    @apply text-sm sm:text-base;
+  }
+  
+  .mobile-heading-responsive {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  .mobile-button-responsive {
+    @apply w-full sm:w-auto;
+  }
+  
+  .mobile-grid-responsive {
+    @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
   }
 }

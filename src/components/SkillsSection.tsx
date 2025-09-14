@@ -347,26 +347,26 @@ const SkillsSection = () => {
     <section id="skills" className="relative min-h-screen py-20">
       <ParticleBackground id="skillsParticles" config="default" />
       
-      <div className="container mx-auto px-6 z-10">
+      <div className="container mx-auto px-4 sm:px-6 z-10">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl md:text-6xl font-bold gradient-text mb-6">Skills & Expertise</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">Skills & Expertise</h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
             Technologies and tools I work with to bring ideas to life
           </p>
           
-          <div className="flex justify-center space-x-4">
+          <div className="flex justify-center space-x-3 sm:space-x-4 px-4">
             <button
               onClick={() => {
                 setView3D(true);
                 setIs3DLoading(false);
               }}
-              className={`px-6 py-2 rounded-full transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 rounded-full transition-all duration-300 text-sm sm:text-base ${
                 view3D ? 'bg-primary text-primary-foreground shadow-glow-primary' : 'glass text-foreground hover:bg-white/10'
               }`}
             >
@@ -377,7 +377,7 @@ const SkillsSection = () => {
                 setView3D(false);
                 setIs3DLoading(false);
               }}
-              className={`px-6 py-2 rounded-full transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 rounded-full transition-all duration-300 text-sm sm:text-base ${
                 !view3D ? 'bg-primary text-primary-foreground shadow-glow-primary' : 'glass text-foreground hover:bg-white/10'
               }`}
             >
@@ -388,20 +388,20 @@ const SkillsSection = () => {
 
         {view3D ? (
           <motion.div
-            className="h-[500px] w-full max-w-4xl mx-auto"
+            className="h-[400px] sm:h-[500px] w-full max-w-4xl mx-auto px-4"
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
           >
             {webGLError ? (
               <div className="h-full w-full glass rounded-2xl border border-white/20 flex items-center justify-center backdrop-blur-xl">
-                <div className="text-center text-white">
-                  <div className="text-4xl mb-4">🎨</div>
-                  <p className="text-lg mb-2">3D View Temporarily Unavailable</p>
-                  <p className="text-sm text-gray-300 mb-4">Too many 3D elements active</p>
+                <div className="text-center text-white p-4">
+                  <div className="text-3xl sm:text-4xl mb-4">🎨</div>
+                  <p className="text-base sm:text-lg mb-2">3D View Temporarily Unavailable</p>
+                  <p className="text-xs sm:text-sm text-gray-300 mb-4">Too many 3D elements active</p>
                   <button
                     onClick={() => setView3D(false)}
-                    className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/80 transition-colors"
+                    className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/80 transition-colors text-sm"
                   >
                     Switch to Grid View
                   </button>
@@ -412,7 +412,7 @@ const SkillsSection = () => {
             )}
           </motion.div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto px-4">
             {skills.map((skill, index) => (
               <SkillCard key={skill.name} skill={skill} index={index} />
             ))}

@@ -45,21 +45,21 @@ const ContactSection = () => {
     <section id="contact" className="relative min-h-screen py-20">
       <ParticleBackground id="contactParticles" config="minimal" />
       
-      <div className="container mx-auto px-6 z-10">
+      <div className="container mx-auto px-4 sm:px-6 z-10">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl md:text-6xl font-bold gradient-text mb-6">Get In Touch</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">Get In Touch</h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
             Ready to bring your ideas to life? Let's create something amazing together
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -67,9 +67,9 @@ const ContactSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <Card className="glass p-8 hover:shadow-glow-primary transition-all duration-500">
+            <Card className="glass p-6 sm:p-8 hover:shadow-glow-primary transition-all duration-500">
               <CardContent className="p-0">
-                <h3 className="text-2xl font-bold mb-6 gradient-text">Send a Message</h3>
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 gradient-text">Send a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -185,10 +185,10 @@ const ContactSection = () => {
             </Card>
 
             {/* Social Links */}
-            <Card className="glass p-8 hover:shadow-glow-accent transition-all duration-500">
+            <Card className="glass p-6 sm:p-8 hover:shadow-glow-accent transition-all duration-500">
               <CardContent className="p-0">
-                <h3 className="text-2xl font-bold mb-6 gradient-text">Follow Me</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 gradient-text">Follow Me</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {socialLinks.map((social, index) => {
                     const IconComponent = social.icon;
                     return (
@@ -197,7 +197,7 @@ const ContactSection = () => {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center space-x-3 p-4 rounded-lg glass hover:shadow-glow-primary transition-all duration-300 group"
+                        className="flex items-center space-x-3 p-3 sm:p-4 rounded-lg glass hover:shadow-glow-primary transition-all duration-300 group"
                         initial={{ opacity: 0, scale: 0 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
@@ -205,9 +205,9 @@ const ContactSection = () => {
                         whileHover={{ scale: 1.05, rotate: 5 }}
                       >
                         <div className="p-2 rounded-full bg-primary/20 group-hover:bg-primary/30 transition-all duration-300">
-                          <IconComponent className="w-5 h-5 text-primary" />
+                          <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                         </div>
-                        <span className="font-medium text-sm">{social.label}</span>
+                        <span className="font-medium text-xs sm:text-sm">{social.label}</span>
                       </motion.a>
                     );
                   })}
