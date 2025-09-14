@@ -14,7 +14,7 @@ const ContactSection = () => {
     email: '',
     message: ''
   });
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  // Using native Netlify POST submission (no JS)
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/Balaji021', label: 'GitHub', color: '#333' },
@@ -29,28 +29,7 @@ const ContactSection = () => {
     { icon: MapPin, title: 'Location', value: 'Coimbatore, Tamil Nadu', href: '#' },
   ];
 
-  // Helper to encode form body for Netlify
-  const encode = (data: Record<string, string>) =>
-    Object.keys(data)
-      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-      .join('&');
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStatus('submitting');
-    try {
-      await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', ...formData }),
-      });
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-    } catch (err) {
-      console.error('Form submit failed', err);
-      setStatus('error');
-    }
-  };
+  // Native submission, no JS handler required
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -102,9 +81,9 @@ const ContactSection = () => {
                 <form
                   name="contact"
                   method="POST"
+                  action="/thank-you.html"
                   data-netlify="true"
                   data-netlify-honeypot="bot-field"
-                  onSubmit={handleSubmit}
                   className="space-y-6"
                 >
                   {/* Hidden inputs required by Netlify */}
@@ -174,15 +153,11 @@ const ContactSection = () => {
                       type="submit"
                       variant="hero"
                       size="lg"
-                      className="w-full group disabled:opacity-60"
-                      disabled={status === 'submitting'}
+                      className="w-full group"
                     >
                       <Send className="mr-2 group-hover:animate-pulse" />
-                      {status === 'submitting' ? 'Sending…' : status === 'success' ? 'Sent!' : 'Send Message'}
+                      Send Message
                     </Button>
-                    {status === 'error' && (
-                      <p className="mt-2 text-sm text-red-400">Something went wrong. Please try again later.</p>
-                    )}
                   </motion.div>
                 </form>
               </CardContent>
