@@ -36,7 +36,7 @@ const AboutSection = () => {
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center max-w-6xl mx-auto">
           {/* Profile Image */}
           <motion.div
-            className="relative order-2 lg:order-1"
+            className="relative order-1 lg:order-1"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -46,7 +46,7 @@ const AboutSection = () => {
               <div className="absolute inset-0 bg-gradient-hero rounded-full opacity-20 animate-pulse" />
               <div className="relative w-full h-full rounded-full overflow-hidden glass border-4 border-primary/30 hover:border-primary/60 transition-all duration-300">
                 <img
-                  src="balaji_image.jpg"
+                  src="/balaji_image.jpg"
                   alt="Profile"
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                   onError={(e) => {
@@ -65,7 +65,7 @@ const AboutSection = () => {
 
           {/* Bio Content */}
           <motion.div
-            className="space-y-6 order-1 lg:order-2"
+            className="space-y-6 order-2 lg:order-2"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
