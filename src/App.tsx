@@ -18,6 +18,28 @@ const AppContent = () => {
   const [showFsPrompt, setShowFsPrompt] = useState(false);
 
   useEffect(() => {
+    // Always start at top on (re)load
+    try {
+      if ('scrollRestoration' in window.history) {
+        const prev = (window.history as any).scrollRestoration;
+        (window.history as any).scrollRestoration = 'manual';
+        // restore previous on unmount just in case
+        return () => {
+          (window.history as any).scrollRestoration = prev || 'auto';
+        };
+      }
+    } catch (_) {}
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+  }, []);
+
+  useEffect(() => {
+    // Extra guard: scroll to top once after load screen is gone
+    if (!isLoading) {
+      window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior }));
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
     // Check fullscreen API support and desktop viewport
     const supported = !!(
       document.documentElement.requestFullscreen ||

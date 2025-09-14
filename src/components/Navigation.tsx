@@ -114,7 +114,7 @@ export default function Navigation() {
         className="fixed top-4 right-4 z-50 bg-black/20 backdrop-blur-xl border border-white/10 rounded-full p-2.5 md:hidden shadow-2xl text-white hover:bg-white/10 transition-all duration-300"
         onClick={() => setIsOpen(!isOpen)}
         initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: hidden ? 0 : 1, scale: hidden ? 0.9 : 1, y: hidden ? -20 : 0 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -126,8 +126,8 @@ export default function Navigation() {
 
       {/* Desktop fixed theme toggle (top-right) */}
       <motion.div className="hidden md:block fixed top-4 right-4 z-50"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: hidden ? 0 : 1, y: hidden ? -20 : 0 }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
         <ThemeToggle inline />

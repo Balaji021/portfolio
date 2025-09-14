@@ -2,16 +2,28 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import ParticleBackground from './ParticleBackground';
 import FloatingShape from './FloatingShape';
-import { Code, GitBranch, Braces, Smartphone, BookOpen, Cloud, Rocket } from 'lucide-react';
+import { Code, Rocket, Github } from 'lucide-react';
 
-const tools = [
-  { name: 'Eclipse (Java Eclipse)', icon: Braces, color: '#2C3E50', url: 'https://www.eclipse.org/ide/' },
-  { name: 'Visual Studio Code', icon: Code, color: '#007ACC', url: 'https://code.visualstudio.com/' },
-  { name: 'Git', icon: GitBranch, color: '#F34F29', url: 'https://git-scm.com/' },
-  { name: 'IntelliJ IDEA', icon: Rocket, color: '#000000', url: 'https://www.jetbrains.com/idea/' },
-  { name: 'Android Studio', icon: Smartphone, color: '#3DDC84', url: 'https://developer.android.com/studio' },
-  { name: 'Notion', icon: BookOpen, color: '#000000', url: 'https://www.notion.so/' },
-  { name: 'Netlify', icon: Cloud, color: '#00AD9F', url: 'https://www.netlify.com/' },
+type Tool = {
+  name: string;
+  color: string;
+  url: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  imgSrc?: string;
+  imgSrcLight?: string;
+  imgSrcDark?: string;
+};
+
+// Use brand-correct icons via Simple Icons CDN when available
+const tools: Tool[] = [
+  { name: 'Eclipse (Java Eclipse)', imgSrc: 'https://cdn.simpleicons.org/eclipseide/ffffff', color: '#2C3E50', url: 'https://www.eclipse.org/ide/' },
+  { name: 'Visual Studio Code', icon: Code, color: '#007ACC', url: 'https://cdn.simpleicons.org/visualstudiocode' },
+  { name: 'GitHub', icon: Github, color: '#000000', url: 'https://github.com/' },
+  { name: 'IntelliJ IDEA', imgSrcLight: 'https://cdn.simpleicons.org/intellijidea/000000', imgSrcDark: 'https://cdn.simpleicons.org/intellijidea/ffffff', color: '#000000', url: 'https://www.jetbrains.com/idea/' },
+  { name: 'Android Studio', imgSrc: 'https://cdn.simpleicons.org/androidstudio', color: '#3DDC84', url: 'https://developer.android.com/studio' },
+  { name: 'Notion', imgSrc: 'https://cdn.simpleicons.org/notion', color: '#000000', url: 'https://www.notion.so/' },
+  { name: 'Netlify', imgSrc: 'https://cdn.simpleicons.org/netlify', color: '#00AD9F', url: 'https://www.netlify.com/' },
+  { name: 'Postman', imgSrc: 'https://cdn.simpleicons.org/postman', color: '#FF6C37', url: 'https://www.postman.com/' },
 ];
 
 const ToolsSection = () => {
@@ -55,7 +67,20 @@ const ToolsSection = () => {
                   <CardContent className="p-0">
                     <div className="flex items-center space-x-3">
                       <div className="p-2 rounded-lg bg-white/10" style={{ color: tool.color }}>
-                        <Icon className="w-5 h-5" />
+                        {tool.imgSrcLight || tool.imgSrcDark ? (
+                          <>
+                            {tool.imgSrcLight && (
+                              <img src={tool.imgSrcLight} alt={`${tool.name} logo`} className="w-5 h-5 inline dark:hidden" />
+                            )}
+                            {tool.imgSrcDark && (
+                              <img src={tool.imgSrcDark} alt={`${tool.name} logo`} className="w-5 h-5 hidden dark:inline" />
+                            )}
+                          </>
+                        ) : tool.imgSrc ? (
+                          <img src={tool.imgSrc} alt={`${tool.name} logo`} className="w-5 h-5" />
+                        ) : (
+                          Icon ? <Icon className="w-5 h-5" /> : null
+                        )}
                       </div>
                       <div className="font-medium text-sm sm:text-base truncate">{tool.name}</div>
                     </div>

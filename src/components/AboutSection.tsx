@@ -100,7 +100,7 @@ const AboutSection = () => {
                 className="glass p-4 sm:p-6 text-center rounded-lg hover:shadow-glow-accent transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="text-2xl sm:text-3xl font-bold gradient-text">2022</div>
+                <div className="text-2xl sm:text-3xl font-bold gradient-text">2026</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-muted-foreground">Graduation Year</div>
               </motion.div>
             </div>
