@@ -70,7 +70,8 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
     const io = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
-        const t = setTimeout(() => setShowCanvas(true), 250);
+        const delay = deviceInfo.isMobile ? 120 : 250;
+        const t = setTimeout(() => setShowCanvas(true), delay);
         return () => clearTimeout(t);
       } else {
         // Unmount when offscreen to free WebGL context on mobile
@@ -80,6 +81,30 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
     }, { threshold: 0.1 });
     io.observe(el);
     return () => io.disconnect();
+  }, []);
+
+  // Listen for global mobile 3D lock (emitted by SkillsSection)
+  useEffect(() => {
+    const onLock = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail === 'skills') {
+        setShowCanvas(false);
+        setReady(false);
+      }
+    };
+    const onUnlock = () => {
+      // Remount if our container is still in view
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) setShowCanvas(true);
+    };
+    window.addEventListener('mobile3d:lock', onLock as EventListener);
+    window.addEventListener('mobile3d:unlock', onUnlock as EventListener);
+    return () => {
+      window.removeEventListener('mobile3d:lock', onLock as EventListener);
+      window.removeEventListener('mobile3d:unlock', onUnlock as EventListener);
+    };
   }, []);
 
   // Fallback for low-end devices or no WebGL support

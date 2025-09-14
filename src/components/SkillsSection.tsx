@@ -152,6 +152,20 @@ const Skills3D = () => {
     return () => clearTimeout(t);
   }, []);
 
+  // Global mobile 3D lock while Skills 3D is visible
+  useEffect(() => {
+    if (!deviceInfo.isMobile) return;
+    if (!showCanvas) return;
+    (window as any).__MOBILE_3D_LOCK = 'skills';
+    window.dispatchEvent(new CustomEvent('mobile3d:lock', { detail: 'skills' }));
+    return () => {
+      if ((window as any).__MOBILE_3D_LOCK === 'skills') {
+        delete (window as any).__MOBILE_3D_LOCK;
+        window.dispatchEvent(new CustomEvent('mobile3d:unlock', { detail: 'skills' }));
+      }
+    };
+  }, [showCanvas, deviceInfo.isMobile]);
+
   const skills = [
     { name: 'React', color: '#61DAFB', level: 95 },
     { name: 'Node.js', color: '#339933', level: 90 },
