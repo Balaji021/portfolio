@@ -29,7 +29,7 @@ const tools: Tool[] = [
 const ToolsSection = () => {
   return (
     <section id="tools" className="relative py-20">
-      <ParticleBackground id="toolsParticles" config="minimal" />
+      <ParticleBackground id="toolsParticles" config="default" />
 
       {/* Subtle 3D shapes */}
       <div className="absolute top-14 left-10 w-16 h-16 opacity-25"><FloatingShape /></div>

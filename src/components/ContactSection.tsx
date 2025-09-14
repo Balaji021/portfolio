@@ -107,7 +107,7 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="relative min-h-screen py-20">
-      <ParticleBackground id="contactParticles" config="minimal" />
+      <ParticleBackground id="contactParticles" config="default" />
       {/* 3D Floating Shapes (decorative) */}
       <div className="absolute top-16 left-10 w-20 h-20 opacity-30">
         <FloatingShape />

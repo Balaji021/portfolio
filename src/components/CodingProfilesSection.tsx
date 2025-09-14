@@ -34,7 +34,7 @@ const CodingProfilesSection = () => {
 
   return (
     <section id="coding-profiles" className="relative py-16 md:py-20">
-      <ParticleBackground id="codingParticles" config="minimal" />
+      <ParticleBackground id="codingParticles" config="default" />
       {/* 3D Floating Shapes */}
       <div className="absolute top-20 left-16 w-20 h-20 opacity-25"><FloatingShape /></div>
       <div className="absolute bottom-20 right-20 w-24 h-24 opacity-25"><FloatingShape /></div>
@@ -53,7 +53,7 @@ const CodingProfilesSection = () => {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
+              viewport={{ amount: 0.2 }}
               whileHover={{ y: -10 }}
               className="group cursor-pointer"
             >

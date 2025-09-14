@@ -41,7 +41,7 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 sm:pt-24">
-      <ParticleBackground id="heroParticles" config="hero" />
+      <ParticleBackground id="heroParticles" config="default" />
       
       {/* 3D Floating Shapes - Responsive positioning */}
       {!deviceInfo.isMobile && (

@@ -20,6 +20,7 @@ const navItems = [
   { id: 'skills', label: 'Skills', icon: Code },
   { id: 'coding-profiles', label: 'Coding', icon: Trophy },
   { id: 'projects', label: 'Projects', icon: Briefcase },
+  { id: 'achievements', label: 'Achievements', icon: Trophy },
   { id: 'contact', label: 'Contact', icon: Mail },
 ];
 

@@ -9,6 +9,7 @@ import CodingProfilesSection from '@/components/CodingProfilesSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection from '@/components/ContactSection';
 import ToolsSection from '@/components/ToolsSection';
+import AchievementsSection from '@/components/AchievementsSection';
 
 const Index = () => {
   return (
@@ -21,6 +22,7 @@ const Index = () => {
       <ToolsSection />
       <CodingProfilesSection />
       <ProjectsSection />
+      <AchievementsSection />
       <ContactSection />
       
       {/* Background Gradient Overlays */}

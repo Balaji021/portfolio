@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 const MyJourneySection = () => {
   return (
     <section id="journey" className="relative min-h-screen py-20 flex items-center">
-      <ParticleBackground id="journeyParticles" config="minimal" />
+      <ParticleBackground id="journeyParticles" config="default" />
 
       {/* 3D Floating Shapes */}
       <div className="absolute top-16 left-16 w-20 h-20 opacity-30">

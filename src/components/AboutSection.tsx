@@ -6,7 +6,7 @@ import FloatingShape from './FloatingShape';
 const AboutSection = () => {
   return (
     <section id="about" className="relative min-h-screen py-20 flex items-center">
-      <ParticleBackground id="aboutParticles" config="minimal" />
+      <ParticleBackground id="aboutParticles" config="default" />
       
       {/* 3D Floating Shapes */}
       <div className="absolute top-20 right-20 w-24 h-24 opacity-30">
@@ -25,7 +25,7 @@ const AboutSection = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ amount: 0.2 }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">About Me</h2>
           <p className="text-lg sm:text-xl text-gray-700 dark:text-muted-foreground max-w-3xl mx-auto px-4">
@@ -40,7 +40,7 @@ const AboutSection = () => {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
+            viewport={{ amount: 0.2 }}
           >
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 mx-auto">
               <div className="absolute inset-0 bg-gradient-hero rounded-full opacity-20 animate-pulse" />
@@ -69,7 +69,7 @@ const AboutSection = () => {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
+            viewport={{ amount: 0.2 }}
           >
             <Card className="glass p-6 sm:p-8 hover:shadow-glow-primary transition-all duration-300">
               <div className="space-y-4">
@@ -93,8 +93,8 @@ const AboutSection = () => {
                 className="glass p-4 sm:p-6 text-center rounded-lg hover:shadow-glow-secondary transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="text-2xl sm:text-3xl font-bold gradient-text">8.59</div>
-                <div className="text-xs sm:text-sm text-gray-600 dark:text-muted-foreground">CGPA (6th Sem)</div>
+                <div className="text-2xl sm:text-3xl font-bold gradient-text">3+</div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-muted-foreground">Projects Completed</div>
               </motion.div>
               <motion.div
                 className="glass p-4 sm:p-6 text-center rounded-lg hover:shadow-glow-accent transition-all duration-300"
