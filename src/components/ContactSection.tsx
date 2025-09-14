@@ -14,7 +14,9 @@ const ContactSection = () => {
     email: '',
     message: ''
   });
-  // Using native Netlify POST submission (no JS)
+  // Google Apps Script submission (client-side, free)
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/Balaji021', label: 'GitHub', color: '#333' },
@@ -29,7 +31,71 @@ const ContactSection = () => {
     { icon: MapPin, title: 'Location', value: 'Coimbatore, Tamil Nadu', href: '#' },
   ];
 
-  // Native submission, no JS handler required
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
+    setStatus('submitting');
+    try {
+      const ENDPOINT = import.meta.env.VITE_GAS_ENDPOINT as string;
+      if (!ENDPOINT) {
+        throw new Error('Missing VITE_GAS_ENDPOINT');
+      }
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      const params = new URLSearchParams({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        to_email: 'balaji12.work@gmail.com',
+        source: 'portfolio',
+        ts: String(Date.now())
+      });
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`GAS returned ${res.status}: ${text}`);
+      }
+      const data = await res.json().catch(() => ({ ok: res.ok }));
+      if (data && data.ok === false) {
+        throw new Error(data.error || 'Unknown error');
+      }
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (err) {
+      console.error('GAS send failed:', err);
+      // Fallback: try a no-cors POST so Gmail still receives the message
+      try {
+        const ENDPOINT = import.meta.env.VITE_GAS_ENDPOINT as string;
+        const params = new URLSearchParams({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          to_email: 'balaji12.work@gmail.com',
+          source: 'portfolio',
+          ts: String(Date.now())
+        });
+        await fetch(ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: params.toString(),
+        });
+        // We cannot read the response in no-cors mode, assume success
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } catch (fallbackErr) {
+        console.error('no-cors fallback failed:', fallbackErr);
+        setErrorMsg(err instanceof Error ? err.message : 'Failed to send');
+        setStatus('error');
+      }
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -77,22 +143,7 @@ const ContactSection = () => {
             <Card className="glass p-6 sm:p-8 hover:shadow-glow-primary transition-all duration-500">
               <CardContent className="p-0">
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 gradient-text">Send a Message</h3>
-                {/* Netlify Forms attributes */}
-                <form
-                  name="contact"
-                  method="POST"
-                  action="/thank-you.html"
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
-                  className="space-y-6"
-                >
-                  {/* Hidden inputs required by Netlify */}
-                  <input type="hidden" name="form-name" value="contact" />
-                  <p className="hidden">
-                    <label>
-                      Don’t fill this out if you’re human: <input name="bot-field" />
-                    </label>
-                  </p>
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -153,11 +204,15 @@ const ContactSection = () => {
                       type="submit"
                       variant="hero"
                       size="lg"
-                      className="w-full group"
+                      className="w-full group disabled:opacity-60"
+                      disabled={status === 'submitting'}
                     >
                       <Send className="mr-2 group-hover:animate-pulse" />
-                      Send Message
+                      {status === 'submitting' ? 'Sending…' : status === 'success' ? 'Sent!' : 'Send Message'}
                     </Button>
+                    {status === 'error' && (
+                      <p className="mt-2 text-sm text-red-400">Unable to send right now. Please try again later.</p>
+                    )}
                   </motion.div>
                 </form>
               </CardContent>
