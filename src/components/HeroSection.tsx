@@ -15,6 +15,30 @@ const HeroSection = () => {
     }
   };
 
+  const downloadResume = async () => {
+    const url = '/Balaji_Resume.pdf';
+    try {
+      const res = await fetch(url, { credentials: 'same-origin' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      if (blob.type !== 'application/pdf') {
+        // Some dev servers may return HTML when file not found
+        throw new Error(`Unexpected content-type: ${blob.type}`);
+      }
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = objectUrl;
+      a.download = 'Balaji_Resume.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(objectUrl);
+    } catch (e) {
+      // Fallback to direct navigation; mobile download managers will handle it
+      window.location.href = url;
+    }
+  };
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 sm:pt-24">
       <ParticleBackground id="heroParticles" config="hero" />
@@ -84,11 +108,9 @@ const HeroSection = () => {
               <ArrowDown className="mr-2" />
               View My Work
             </Button>
-            <Button variant="neon" size="lg" asChild>
-              <a href="/Balaji_Resume.pdf" download="Balaji_Resume.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2" />
-                Download Resume
-              </a>
+            <Button variant="neon" size="lg" onClick={downloadResume}>
+              <Download className="mr-2" />
+              Download Resume
             </Button>
           </motion.div>
 
