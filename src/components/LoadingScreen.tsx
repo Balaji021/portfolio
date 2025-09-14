@@ -65,84 +65,66 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
     <AnimatePresence>
       {isLoading && (
         <motion.div
-          className="fixed inset-0 z-[9999] bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center loading-optimized"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
         >
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.3),transparent_50%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.2),transparent_50%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(168,85,247,0.2),transparent_50%)]" />
+          {/* Simplified Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.2),transparent_70%)]" />
           </div>
 
           <div className="text-center relative z-10">
-            {/* Main Logo Container */}
+            {/* Simplified Logo Container */}
             <motion.div
-              className="relative mb-12"
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
+              className="relative mb-8 sm:mb-12"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ 
-                type: "spring", 
-                stiffness: 200, 
-                damping: 20,
-                delay: 0.3 
+                duration: 0.8,
+                ease: "easeOut"
               }}
             >
-              {/* Outer Glow Ring */}
-              <motion.div
-                className="absolute inset-0 w-32 h-32 mx-auto border-2 border-primary/20 rounded-full"
-                animate={{ 
-                  scale: [1, 1.3, 1],
-                  opacity: [0.3, 0.6, 0.3]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
-                }}
-              />
-              
-              {/* Middle Ring */}
-              <motion.div
-                className="absolute inset-2 w-28 h-28 mx-auto border-2 border-secondary/30 rounded-full"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.4, 0.8, 0.4]
-                }}
-                transition={{ 
-                  duration: 2.5, 
-                  repeat: Infinity, 
-                  ease: "easeInOut",
-                  delay: 0.5
-                }}
-              />
+              {/* Single Ring for better performance */}
+              {!isLowEnd && (
+                <motion.div
+                  className="absolute inset-0 w-24 h-24 mx-auto border-2 border-primary/30 rounded-full"
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.6, 0.3]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                />
+              )}
 
               {/* Main Logo */}
               <motion.div
-                className="relative w-24 h-24 mx-auto bg-gradient-to-br from-primary via-secondary to-primary rounded-full flex items-center justify-center shadow-2xl"
+                className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto bg-gradient-to-br from-primary via-secondary to-primary rounded-full flex items-center justify-center shadow-2xl"
                 animate={{ 
-                  rotate: 360,
-                  boxShadow: [
+                  rotate: isLowEnd ? 0 : 360,
+                  boxShadow: isLowEnd ? "0 0 20px rgba(120, 119, 198, 0.5)" : [
                     "0 0 20px rgba(120, 119, 198, 0.5)",
-                    "0 0 40px rgba(120, 119, 198, 0.8)",
+                    "0 0 30px rgba(120, 119, 198, 0.7)",
                     "0 0 20px rgba(120, 119, 198, 0.5)"
                   ]
                 }}
                 transition={{ 
-                  rotate: { duration: 4, repeat: Infinity, ease: "linear" },
-                  boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                  rotate: isLowEnd ? { duration: 0 } : { duration: 3, repeat: Infinity, ease: "linear" },
+                  boxShadow: isLowEnd ? { duration: 0 } : { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
                 }}
               >
                 <motion.div
-                  className="text-4xl"
-                  animate={{ 
-                    y: [0, -8, 0],
-                    rotate: [0, 10, 0]
+                  className="text-3xl sm:text-4xl"
+                  animate={isLowEnd ? {} : { 
+                    y: [0, -4, 0]
                   }}
-                  transition={{ 
-                    duration: 2, 
+                  transition={isLowEnd ? {} : { 
+                    duration: 1.5, 
                     repeat: Infinity, 
                     ease: "easeInOut" 
                   }}
@@ -151,27 +133,27 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
                 </motion.div>
               </motion.div>
 
-              {/* Floating Particles around logo */}
-              {Array.from({ length: 8 }).map((_, i) => (
+              {/* Reduced floating particles for better performance */}
+              {!isLowEnd && Array.from({ length: 4 }).map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-2 h-2 bg-primary rounded-full"
+                  className="absolute w-1.5 h-1.5 bg-primary rounded-full loading-particle"
                   style={{
                     left: '50%',
                     top: '50%',
                     transformOrigin: '0 0'
                   }}
                   animate={{
-                    x: [0, Math.cos(i * 45 * Math.PI / 180) * 60],
-                    y: [0, Math.sin(i * 45 * Math.PI / 180) * 60],
+                    x: [0, Math.cos(i * 90 * Math.PI / 180) * 40],
+                    y: [0, Math.sin(i * 90 * Math.PI / 180) * 40],
                     opacity: [0, 1, 0],
                     scale: [0, 1, 0]
                   }}
                   transition={{
-                    duration: 2,
+                    duration: 2.5,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: i * 0.2
+                    delay: i * 0.5
                   }}
                 />
               ))}
@@ -179,26 +161,26 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
 
             {/* Loading Text */}
             <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, y: 30 }}
+              className="space-y-4 sm:space-y-6"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
             >
               <motion.h1
-                className="text-4xl font-bold gradient-text mb-2"
+                className="text-3xl sm:text-4xl font-bold gradient-text mb-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 0.5 }}
+                transition={{ delay: 0.8, duration: 0.4 }}
               >
                 Portfolio
               </motion.h1>
               
               <motion.h2
-                className="text-lg text-gray-300 mb-4"
-                animate={{ 
+                className="text-base sm:text-lg text-gray-300 mb-4"
+                animate={isLowEnd ? {} : { 
                   opacity: [0.6, 1, 0.6]
                 }}
-                transition={{ 
+                transition={isLowEnd ? {} : { 
                   duration: 2, 
                   repeat: Infinity, 
                   ease: "easeInOut" 
@@ -207,88 +189,92 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
                 {loadingMessage}
               </motion.h2>
               
-              {/* Animated dots */}
+              {/* Simplified animated dots */}
               <motion.div className="flex justify-center space-x-2">
                 {[0, 1, 2].map((index) => (
                   <motion.div
                     key={index}
-                    className="w-3 h-3 bg-gradient-to-r from-primary to-secondary rounded-full"
-                    animate={{
-                      y: [0, -15, 0],
+                    className="w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-primary to-secondary rounded-full"
+                    animate={isLowEnd ? {} : {
+                      y: [0, -10, 0],
                       opacity: [0.4, 1, 0.4],
-                      scale: [0.8, 1.2, 0.8]
+                      scale: [0.8, 1.1, 0.8]
                     }}
-                    transition={{
-                      duration: 1.8,
+                    transition={isLowEnd ? {} : {
+                      duration: 1.5,
                       repeat: Infinity,
                       ease: "easeInOut",
-                      delay: index * 0.3
+                      delay: index * 0.2
                     }}
                   />
                 ))}
               </motion.div>
             </motion.div>
 
-            {/* Progress Bar */}
+            {/* Simplified Progress Bar */}
             <motion.div
-              className="mt-12 w-80 mx-auto"
-              initial={{ opacity: 0, scale: 0.8 }}
+              className="mt-8 sm:mt-12 w-64 sm:w-80 mx-auto"
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.2, duration: 0.5 }}
+              transition={{ delay: 1, duration: 0.4 }}
             >
-              <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden shadow-inner">
+              <div className="w-full h-1.5 sm:h-2 bg-gray-800 rounded-full overflow-hidden shadow-inner">
                 <motion.div
                   className="h-full bg-gradient-to-r from-primary via-secondary to-primary rounded-full relative"
                   style={{ width: `${progress}%` }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                 >
-                  <motion.div
-                    className="absolute inset-0 bg-white/30 rounded-full"
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{ 
-                      duration: 1.5, 
-                      repeat: Infinity, 
-                      ease: "easeInOut" 
-                    }}
-                  />
+                  {!isLowEnd && (
+                    <motion.div
+                      className="absolute inset-0 bg-white/20 rounded-full"
+                      animate={{ x: ['-100%', '100%'] }}
+                      transition={{ 
+                        duration: 1.2, 
+                        repeat: Infinity, 
+                        ease: "easeInOut" 
+                      }}
+                    />
+                  )}
                 </motion.div>
               </div>
               <motion.div
-                className="mt-2 text-sm text-gray-400"
+                className="mt-2 text-xs sm:text-sm text-gray-400"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5 }}
+                transition={{ delay: 1.2 }}
               >
                 {Math.round(progress)}%
               </motion.div>
             </motion.div>
           </div>
 
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {Array.from({ length: 15 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 bg-primary/40 rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  y: [0, -200, 0],
-                  opacity: [0, 1, 0],
-                  scale: [0, 1.5, 0],
-                  x: [0, (Math.random() - 0.5) * 100, 0]
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: Math.random() * 3
-                }}
-              />
-            ))}
-          </div>
+          {/* Reduced Background Elements for better performance */}
+          {!isLowEnd && (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-primary/30 rounded-full loading-particle"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    y: [0, -150, 0],
+                    opacity: [0, 0.8, 0],
+                    scale: [0, 1, 0],
+                    x: [0, (Math.random() - 0.5) * 50, 0]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: Math.random() * 2
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>

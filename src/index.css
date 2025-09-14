@@ -111,9 +111,14 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground overflow-x-hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    width: 100%;
+    max-width: 100vw;
   }
   
   html {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
     scroll-behavior: smooth;
   }
 
@@ -122,6 +127,25 @@ All colors MUST be HSL.
     body {
       -webkit-text-size-adjust: 100%;
       -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Prevent horizontal overflow */
+    * {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    
+    /* Ensure all containers fit mobile width */
+    .container {
+      max-width: 100vw;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    /* Fix grid layouts on mobile */
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
     
     /* Improve touch targets */
@@ -138,6 +162,13 @@ All colors MUST be HSL.
     /* Prevent zoom on input focus */
     input, textarea, select {
       font-size: 16px;
+    }
+    
+    /* Fix text overflow */
+    h1, h2, h3, h4, h5, h6, p, span, div {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
     }
   }
 }
@@ -275,5 +306,27 @@ All colors MUST be HSL.
   
   .mobile-grid-responsive {
     @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Performance optimizations for loading screen */
+  .loading-optimized {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  .loading-particle {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    .loading-optimized,
+    .loading-particle {
+      animation: none !important;
+      transform: none !important;
+    }
   }
 }

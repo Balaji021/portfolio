@@ -131,23 +131,23 @@ const CodingProfilesSection = () => {
         <FloatingShape />
       </div>
       
-      <div className="container mx-auto px-6 z-10">
+      <div className="container mx-auto px-4 sm:px-6 z-10 max-w-full">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl md:text-6xl font-bold gradient-text mb-6">Coding Profiles</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">Coding Profiles</h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
             My journey through competitive programming and problem-solving across various platforms
           </p>
         </motion.div>
 
         {/* Overall Stats */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -158,23 +158,23 @@ const CodingProfilesSection = () => {
             return (
               <motion.div
                 key={stat.label}
-                className="glass p-6 text-center rounded-lg hover:shadow-glow-primary transition-all duration-300"
+                className="glass p-4 sm:p-6 text-center rounded-lg hover:shadow-glow-primary transition-all duration-300"
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
               >
-                <IconComponent className={`w-8 h-8 mx-auto mb-3 ${stat.color}`} />
-                <div className="text-2xl font-bold gradient-text mb-2">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <IconComponent className={`w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 sm:mb-3 ${stat.color}`} />
+                <div className="text-lg sm:text-2xl font-bold gradient-text mb-1 sm:mb-2">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground leading-tight">{stat.label}</div>
               </motion.div>
             );
           })}
         </motion.div>
 
         {/* Coding Platforms */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16">
           {codingPlatforms.map((platform, index) => (
             <motion.div
               key={platform.name}
@@ -183,22 +183,22 @@ const CodingProfilesSection = () => {
               transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className={`glass p-8 hover:shadow-glow-primary transition-all duration-500 border-2 ${platform.borderColor} hover:border-opacity-60`}>
+              <Card className={`glass p-6 sm:p-8 hover:shadow-glow-primary transition-all duration-500 border-2 ${platform.borderColor} hover:border-opacity-60`}>
                 <CardContent className="p-0">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-4">
-                      <div className={`p-3 rounded-full bg-gradient-to-r ${platform.bgColor}`}>
-                        <Code2 className="w-6 h-6" style={{ color: platform.color }} />
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
+                    <div className="flex items-center space-x-3 sm:space-x-4">
+                      <div className={`p-2 sm:p-3 rounded-full bg-gradient-to-r ${platform.bgColor}`}>
+                        <Code2 className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: platform.color }} />
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-bold gradient-text">{platform.name}</h3>
-                        <p className="text-sm text-muted-foreground">@{platform.username}</p>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-xl sm:text-2xl font-bold gradient-text truncate">{platform.name}</h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">@{platform.username}</p>
                       </div>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
-                      className="glass border-primary/30 hover:border-primary hover:shadow-glow-primary"
+                      className="glass border-primary/30 hover:border-primary hover:shadow-glow-primary w-full sm:w-auto"
                       onClick={() => window.open(platform.url, '_blank')}
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
@@ -207,41 +207,41 @@ const CodingProfilesSection = () => {
                   </div>
 
                   {/* Stats Grid */}
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="glass p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold gradient-text">{platform.stats.problemsSolved}</div>
-                      <div className="text-xs text-muted-foreground">Problems Solved</div>
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="glass p-3 sm:p-4 rounded-lg text-center">
+                      <div className="text-lg sm:text-2xl font-bold gradient-text">{platform.stats.problemsSolved}</div>
+                      <div className="text-xs text-muted-foreground leading-tight">Problems Solved</div>
                     </div>
-                    <div className="glass p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold gradient-text">{platform.stats.ranking}</div>
-                      <div className="text-xs text-muted-foreground">Ranking</div>
+                    <div className="glass p-3 sm:p-4 rounded-lg text-center">
+                      <div className="text-lg sm:text-2xl font-bold gradient-text">{platform.stats.ranking}</div>
+                      <div className="text-xs text-muted-foreground leading-tight">Ranking</div>
                     </div>
-                    <div className="glass p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold gradient-text">{platform.stats.streak}</div>
-                      <div className="text-xs text-muted-foreground">Day Streak</div>
+                    <div className="glass p-3 sm:p-4 rounded-lg text-center">
+                      <div className="text-lg sm:text-2xl font-bold gradient-text">{platform.stats.streak}</div>
+                      <div className="text-xs text-muted-foreground leading-tight">Day Streak</div>
                     </div>
-                    <div className="glass p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold gradient-text">{platform.stats.contests}</div>
-                      <div className="text-xs text-muted-foreground">Contests</div>
+                    <div className="glass p-3 sm:p-4 rounded-lg text-center">
+                      <div className="text-lg sm:text-2xl font-bold gradient-text">{platform.stats.contests}</div>
+                      <div className="text-xs text-muted-foreground leading-tight">Contests</div>
                     </div>
                   </div>
 
                   {/* Achievements */}
                   <div className="space-y-2">
-                    <h4 className="text-sm font-semibold text-muted-foreground mb-3">Recent Achievements</h4>
+                    <h4 className="text-xs sm:text-sm font-semibold text-muted-foreground mb-2 sm:mb-3">Recent Achievements</h4>
                     {platform.achievements.map((achievement, achievementIndex) => {
                       const IconComponent = achievement.icon;
                       return (
                         <motion.div
                           key={achievement.name}
-                          className="flex items-center space-x-3 p-2 rounded-lg glass hover:shadow-glow-secondary transition-all duration-300"
+                          className="flex items-center space-x-2 sm:space-x-3 p-2 rounded-lg glass hover:shadow-glow-secondary transition-all duration-300"
                           initial={{ opacity: 0, x: -20 }}
                           whileInView={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5, delay: 0.6 + index * 0.1 + achievementIndex * 0.05 }}
                           viewport={{ once: true }}
                         >
-                          <IconComponent className={`w-4 h-4 ${achievement.color}`} />
-                          <span className="text-sm">{achievement.name}</span>
+                          <IconComponent className={`w-3 h-3 sm:w-4 sm:h-4 ${achievement.color} flex-shrink-0`} />
+                          <span className="text-xs sm:text-sm truncate">{achievement.name}</span>
                         </motion.div>
                       );
                     })}
@@ -259,36 +259,38 @@ const CodingProfilesSection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           viewport={{ once: true }}
         >
-          <Card className="glass p-8 hover:shadow-glow-accent transition-all duration-500">
+          <Card className="glass p-6 sm:p-8 hover:shadow-glow-accent transition-all duration-500">
             <CardContent className="p-0">
-              <div className="flex items-center space-x-3 mb-8">
-                <Trophy className="w-6 h-6 text-yellow-500" />
-                <h3 className="text-2xl font-bold gradient-text">Recent Achievements</h3>
+              <div className="flex items-center space-x-3 mb-6 sm:mb-8">
+                <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
+                <h3 className="text-xl sm:text-2xl font-bold gradient-text">Recent Achievements</h3>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {recentAchievements.map((achievement, index) => (
                   <motion.div
                     key={achievement.title}
-                    className="flex items-center space-x-4 p-4 rounded-lg glass hover:shadow-glow-primary transition-all duration-300"
+                    className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 p-3 sm:p-4 rounded-lg glass hover:shadow-glow-primary transition-all duration-300"
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.02 }}
                   >
-                    <div className="p-2 rounded-full bg-primary/20">
-                      <Award className="w-5 h-5 text-primary" />
+                    <div className="flex items-center space-x-3 flex-1 min-w-0">
+                      <div className="p-2 rounded-full bg-primary/20 flex-shrink-0">
+                        <Award className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-sm sm:text-base truncate">{achievement.title}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground truncate">{achievement.description}</div>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="font-semibold">{achievement.title}</div>
-                      <div className="text-sm text-muted-foreground">{achievement.description}</div>
-                    </div>
-                    <div className="text-right">
-                      <Badge variant="outline" className="mb-1">{achievement.platform}</Badge>
+                    <div className="flex flex-col sm:items-end space-y-1">
+                      <Badge variant="outline" className="text-xs w-fit">{achievement.platform}</Badge>
                       <div className="text-xs text-muted-foreground flex items-center">
-                        <Calendar className="w-3 h-3 mr-1" />
-                        {achievement.date}
+                        <Calendar className="w-3 h-3 mr-1 flex-shrink-0" />
+                        <span className="truncate">{achievement.date}</span>
                       </div>
                     </div>
                   </motion.div>

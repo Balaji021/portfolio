@@ -1,42 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export const useLoading = (minLoadingTime: number = 3000) => {
+export const useLoading = (minLoadingTime: number = 2500) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
+
+  const finishLoading = useCallback(() => {
+    setLoadingProgress(100);
+    // Shorter delay for better UX
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 200);
+  }, []);
 
   useEffect(() => {
     // Reset progress when loading starts
     setLoadingProgress(0);
 
-    // Simulate loading progress with better timing
+    // More efficient progress simulation
     const progressInterval = setInterval(() => {
       setLoadingProgress(prev => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           return 100;
         }
-        // More consistent progress increments
-        return Math.min(prev + Math.random() * 8 + 3, 100);
+        // Smoother progress increments
+        const increment = prev < 30 ? 4 + Math.random() * 3 : 
+                         prev < 70 ? 2 + Math.random() * 2 : 
+                         1 + Math.random() * 1;
+        return Math.min(prev + increment, 100);
       });
-    }, 120);
+    }, 100); // Slightly faster updates for smoother progress
 
     // Minimum loading time
     const minTimeTimer = setTimeout(() => {
-      setLoadingProgress(100);
-      // Small delay to show 100% before hiding
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 300);
+      finishLoading();
     }, minLoadingTime);
 
     // Check if all critical resources are loaded
     const checkResourcesLoaded = () => {
       if (document.readyState === 'complete') {
-        // Ensure we show 100% before hiding
-        setLoadingProgress(100);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
+        finishLoading();
       }
     };
 
@@ -51,7 +54,7 @@ export const useLoading = (minLoadingTime: number = 3000) => {
       window.removeEventListener('load', checkResourcesLoaded);
       document.removeEventListener('DOMContentLoaded', checkResourcesLoaded);
     };
-  }, [minLoadingTime]);
+  }, [minLoadingTime, finishLoading]);
 
   return { isLoading, loadingProgress };
 };
