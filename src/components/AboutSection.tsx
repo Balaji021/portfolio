@@ -75,13 +75,14 @@ const AboutSection = () => {
               <div className="space-y-4">
                 <h3 className="text-xl sm:text-2xl font-bold text-primary">Hello! I'm Balaji</h3>
                 <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                  I'm a passionate full-stack developer with over 5 years of experience creating 
-                  beautiful, functional, and user-centered digital experiences. I love working 
-                  with modern technologies and turning complex problems into simple, elegant solutions.
+                  I'm a passionate full-stack developer currently pursuing my Bachelor of Technology 
+                  in Information Technology at Dr. N.G.P. Institute of Technology. I love working 
+                  with Java, C, and web technologies to create innovative solutions and solve real-world problems.
                 </p>
                 <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                  When I'm not coding, you can find me exploring new technologies, contributing to 
-                  open source projects, or sharing my knowledge through articles and tutorials.
+                  With strong problem-solving skills and a commitment to continuous learning, I aim to 
+                  contribute positively to forward-thinking organizations through dedication, creativity, 
+                  and a proactive mindset.
                 </p>
               </div>
             </Card>
@@ -92,15 +93,15 @@ const AboutSection = () => {
                 className="glass p-4 sm:p-6 text-center rounded-lg hover:shadow-glow-secondary transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="text-2xl sm:text-3xl font-bold gradient-text">50+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Projects Completed</div>
+                <div className="text-2xl sm:text-3xl font-bold gradient-text">8.59</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">CGPA (6th Sem)</div>
               </motion.div>
               <motion.div
                 className="glass p-4 sm:p-6 text-center rounded-lg hover:shadow-glow-accent transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="text-2xl sm:text-3xl font-bold gradient-text">5+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Years Experience</div>
+                <div className="text-2xl sm:text-3xl font-bold gradient-text">2022</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Graduation Year</div>
               </motion.div>
             </div>
           </motion.div>

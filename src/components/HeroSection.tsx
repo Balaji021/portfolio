@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowDown, Download, Mail } from 'lucide-react';
+import { ArrowDown, Download } from 'lucide-react';
 import ParticleBackground from './ParticleBackground';
 import FloatingShape from './FloatingShape';
 import TransparentParticleBackground from './TransparentParticleBackground';
@@ -17,7 +17,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 sm:pt-24">
       <ParticleBackground id="heroParticles" config="hero" />
       
       {/* 3D Floating Shapes - Responsive positioning */}
@@ -62,7 +62,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              Software Engineer
+              Software Developer
             </motion.p>
             <motion.p 
               className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4"
@@ -70,7 +70,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
             >
-              Crafting beautiful, interactive web experiences with modern technologies
+              Curious about how technology can solve real-world challenges in smarter ways. Familiar with Java, C, and full-stack development, and enjoy applying them to meaningful solutions. I value practical learning, teamwork, and constantly improving my skills.
             </motion.p>
           </motion.div>
 
@@ -81,37 +81,33 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
           >
-            <Button variant="hero" size="lg" className="group w-full sm:w-auto">
-              <Mail className="mr-2 group-hover:animate-pulse" />
-              Hire Me
+            <Button variant="hero" size="lg" onClick={scrollToNext}>
+              <ArrowDown className="mr-2" />
+              View My Work
             </Button>
-            <Button variant="neon" size="lg" className="group w-full sm:w-auto">
-              <Download className="mr-2 group-hover:animate-bounce" />
-              View Projects
+            <Button variant="neon" size="lg" asChild>
+              <a href="Balaji_Resume.pdf" download>
+                <Download className="mr-2" />
+                Download Resume
+              </a>
             </Button>
           </motion.div>
 
-          {/* Scroll Indicator */}
+          {/* Inspirational Quote */}
           <motion.div
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.5 }}
+            className="mx-4 sm:mx-auto max-w-2xl bg-gradient-to-r from-amber-50/60 to-transparent dark:from-amber-100/5 dark:to-transparent rounded-xl p-4 sm:p-5 md:p-6 shadow-sm border border-amber-100/50 dark:border-amber-200/10 mb-6 sm:mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.35 }}
           >
-            <button
-              onClick={scrollToNext}
-              className="flex flex-col items-center text-muted-foreground hover:text-primary transition-colors duration-300 group"
-            >
-              <span className="text-sm mb-2">Scroll to explore</span>
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="group-hover:shadow-glow-primary rounded-full p-2"
-              >
-                <ArrowDown size={24} />
-              </motion.div>
-            </button>
+            <p className="text-center italic text-base sm:text-lg md:text-xl text-foreground/90 mb-1">
+              "When you become serious about your goals, not everyone will stay with you."
+            </p>
+            <p className="text-center text-sm sm:text-base md:text-lg font-semibold text-amber-600 dark:text-amber-400">
+              That's why a bus has 50 seats, but a Lambo has only 2.
+            </p>
           </motion.div>
+
         </div>
       </div>
 

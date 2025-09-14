@@ -16,21 +16,21 @@ const ContactSection = () => {
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/Balaji021', label: 'GitHub', color: '#333' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/balajiselvaraj0211', label: 'LinkedIn', color: '#0077B5' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/balaji-s-2bb586240', label: 'LinkedIn', color: '#0077B5' },
     { icon: Twitter, href: 'https://twitter.com', label: 'Twitter', color: '#1DA1F2' },
     { icon: Youtube, href: 'https://youtube.com', label: 'YouTube', color: '#FF0000' },
   ];
 
   const contactInfo = [
-    { icon: Mail, title: 'Email', value: 'john@example.com', href: 'mailto:john@example.com' },
-    { icon: Phone, title: 'Phone', value: '+1 (555) 123-4567', href: 'tel:+15551234567' },
-    { icon: MapPin, title: 'Location', value: 'San Francisco, CA', href: '#' },
+    { icon: Mail, title: 'Email', value: 'balajiselvaraj12@gmail.com', href: 'mailto:balajiselvaraj12@gmail.com' },
+    { icon: Phone, title: 'Phone', value: '+91 9360201078', href: 'tel:+919360201078' },
+    { icon: MapPin, title: 'Location', value: 'Coimbatore, Tamil Nadu', href: '#' },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission here
-    const mailtoLink = `mailto:john@example.com?subject=Contact from ${formData.name}&body=${formData.message}`;
+    const mailtoLink = `mailto:balajiselvaraj12@gmail.com?subject=Contact from ${formData.name}&body=${formData.message}`;
     window.open(mailtoLink);
   };
 

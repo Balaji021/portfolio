@@ -306,40 +306,40 @@ const SkillsSection = () => {
   
   const skills = [
     {
-      name: 'React & Next.js',
-      level: 95,
-      description: 'Building modern, scalable web applications with React ecosystem',
-      color: '#61DAFB'
-    },
-    {
-      name: 'Node.js & Express',
+      name: 'Java Programming',
       level: 90,
-      description: 'Developing robust backend APIs and server-side applications',
-      color: '#339933'
+      description: 'Object-oriented programming and Spring framework development',
+      color: '#F89820'
     },
     {
-      name: 'TypeScript',
-      level: 88,
-      description: 'Type-safe development for better code quality and maintainability',
-      color: '#3178C6'
-    },
-    {
-      name: 'Python & Django',
+      name: 'C Programming',
       level: 85,
-      description: 'Backend development and data processing with Python',
-      color: '#3776AB'
+      description: 'System programming and algorithm implementation',
+      color: '#00599C'
     },
     {
-      name: 'Database Design',
-      level: 82,
-      description: 'MongoDB, PostgreSQL, and database optimization',
+      name: 'Web Development',
+      level: 80,
+      description: 'HTML, CSS, JavaScript for frontend development',
+      color: '#F7DF1E'
+    },
+    {
+      name: 'Spring Boot',
+      level: 75,
+      description: 'Building enterprise applications with Spring ecosystem',
+      color: '#6DB33F'
+    },
+    {
+      name: 'Database Management',
+      level: 70,
+      description: 'MongoDB, MySQL, and XAMPP for data management',
       color: '#47A248'
     },
     {
-      name: 'Cloud & DevOps',
-      level: 80,
-      description: 'AWS, Docker, CI/CD pipelines and deployment strategies',
-      color: '#FF9900'
+      name: 'Android Development',
+      level: 65,
+      description: 'Mobile app development using Android Studio',
+      color: '#3DDC84'
     },
   ];
 
