@@ -18,6 +18,12 @@ const MyJourneySection = () => {
       <div className="absolute top-1/3 right-10 w-16 h-16 opacity-20">
         <FloatingShape />
       </div>
+      <div className="absolute bottom-1/4 left-10 w-14 h-14 opacity-20">
+        <FloatingShape />
+      </div>
+      <div className="absolute top-24 left-1/2 -translate-x-1/2 w-12 h-12 opacity-15">
+        <FloatingShape />
+      </div>
 
       <div className="container mx-auto px-4 sm:px-6 z-10">
         {/* Heading */}

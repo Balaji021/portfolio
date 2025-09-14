@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { useState } from 'react';
 import ParticleBackground from './ParticleBackground';
+import FloatingShape from './FloatingShape';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -44,6 +45,16 @@ const ContactSection = () => {
   return (
     <section id="contact" className="relative min-h-screen py-20">
       <ParticleBackground id="contactParticles" config="minimal" />
+      {/* 3D Floating Shapes (decorative) */}
+      <div className="absolute top-16 left-10 w-20 h-20 opacity-30">
+        <FloatingShape />
+      </div>
+      <div className="absolute bottom-20 right-12 w-24 h-24 opacity-25">
+        <FloatingShape />
+      </div>
+      <div className="absolute top-1/3 right-6 w-16 h-16 opacity-20">
+        <FloatingShape />
+      </div>
       
       <div className="container mx-auto px-4 sm:px-6 z-10">
         <motion.div

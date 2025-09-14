@@ -29,6 +29,19 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://balaji-portfolio.com" />
+
+    <!-- Apply saved/system theme before app loads to avoid flash and ensure toggle works -->
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          if (theme === 'dark') document.documentElement.classList.add('dark');
+          else document.documentElement.classList.remove('dark');
+        } catch (e) { /* noop */ }
+      })();
+    </script>
   </head>
 
   <body>

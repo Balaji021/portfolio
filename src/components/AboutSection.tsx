@@ -46,7 +46,7 @@ const AboutSection = () => {
               <div className="absolute inset-0 bg-gradient-hero rounded-full opacity-20 animate-pulse" />
               <div className="relative w-full h-full rounded-full overflow-hidden glass border-4 border-primary/30 hover:border-primary/60 transition-all duration-300">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                  src="balaji_image.jpg"
                   alt="Profile"
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                   onError={(e) => {

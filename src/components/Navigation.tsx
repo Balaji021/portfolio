@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ThemeToggle from '@/components/ThemeToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
@@ -90,6 +91,10 @@ export default function Navigation() {
               </button>
             );
           })}
+          {/* Inline theme toggle on desktop */}
+          <div className="hidden md:block ml-2">
+            <ThemeToggle inline />
+          </div>
         </div>
       </motion.nav>
 
@@ -152,6 +157,10 @@ export default function Navigation() {
                     </motion.button>
                   );
                 })}
+                {/* Mobile inline theme toggle */}
+                <div className="pt-2 border-t border-white/10 mt-2 flex justify-end">
+                  <ThemeToggle inline />
+                </div>
               </div>
             </motion.div>
           </motion.div>

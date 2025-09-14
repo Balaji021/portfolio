@@ -35,58 +35,114 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Dark theme base colors */
+    /* Light theme base colors (default) */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    /* Card and surface colors */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    /* Interactive elements */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Brand accents (kept same for consistency across themes) */
+    --primary: 274 100% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 189 100% 52%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 120 70% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Muted neutrals */
+    --muted: 210 16% 94%;
+    --muted-foreground: 222 14% 25%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 210 16% 90%;
+    --input: 210 16% 90%;
+    --ring: 274 100% 60%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(274 100% 60%) 0%, hsl(189 100% 52%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(189 100% 52%) 0%, hsl(120 70% 45%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(274 100% 60%) 0%, hsl(189 100% 52%) 50%, hsl(120 70% 45%) 100%);
+
+    /* Glows (lighter on white) */
+    --glow-primary: 0 0 24px hsl(274 100% 60% / 0.35);
+    --glow-secondary: 0 0 24px hsl(189 100% 52% / 0.35);
+    --glow-accent: 0 0 24px hsl(120 70% 45% / 0.35);
+
+    /* Glass effects */
+    --glass-bg: hsl(0 0% 100% / 0.6);
+    --glass-border: hsl(222 14% 25% / 0.12);
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 274 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 16% 94%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 210 16% 90%;
+    --sidebar-ring: 274 100% 60%;
+
+    /* Animation variables */
+    --animation-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-medium: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Dark theme overrides (previous defaults) */
+  .dark {
     --background: 225 39% 7%;
     --foreground: 213 31% 91%;
-    
-    /* Card and surface colors */
+
     --card: 226 50% 9%;
     --card-foreground: 213 31% 91%;
-    
-    /* Interactive elements */
+
     --popover: 226 50% 9%;
     --popover-foreground: 213 31% 91%;
-    
-    /* Neon accent colors */
+
     --primary: 274 100% 70%;
     --primary-foreground: 0 0% 0%;
-    
+
     --secondary: 189 100% 62%;
     --secondary-foreground: 0 0% 0%;
-    
+
     --accent: 120 100% 50%;
     --accent-foreground: 0 0% 0%;
-    
-    /* Muted colors */
+
     --muted: 226 50% 12%;
     --muted-foreground: 213 27% 84%;
-    
-    /* Destructive */
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    
-    /* Borders and inputs */
+
     --border: 226 50% 15%;
     --input: 226 50% 12%;
     --ring: 274 100% 70%;
-    
-    /* Neon gradients */
+
     --gradient-primary: linear-gradient(135deg, hsl(274 100% 70%) 0%, hsl(189 100% 62%) 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(189 100% 62%) 0%, hsl(120 100% 50%) 100%);
     --gradient-hero: linear-gradient(135deg, hsl(274 100% 70%) 0%, hsl(189 100% 62%) 50%, hsl(120 100% 50%) 100%);
-    
-    /* Glowing effects */
+
     --glow-primary: 0 0 20px hsl(274 100% 70% / 0.5);
     --glow-secondary: 0 0 20px hsl(189 100% 62% / 0.5);
     --glow-accent: 0 0 20px hsl(120 100% 50% / 0.5);
-    
-    /* Glass effects */
+
     --glass-bg: hsl(226 50% 9% / 0.1);
     --glass-border: hsl(213 31% 91% / 0.1);
-    
-    --radius: 0.75rem;
-    
-    /* Sidebar */
+
     --sidebar-background: 226 50% 9%;
     --sidebar-foreground: 213 31% 91%;
     --sidebar-primary: 274 100% 70%;
@@ -95,11 +151,6 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 213 31% 91%;
     --sidebar-border: 226 50% 15%;
     --sidebar-ring: 274 100% 70%;
-    
-    /* Animation variables */
-    --animation-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    --animation-medium: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    --animation-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
