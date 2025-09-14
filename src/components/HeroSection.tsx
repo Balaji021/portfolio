@@ -16,7 +16,7 @@ const HeroSection = () => {
   };
 
   const downloadResume = async () => {
-    const url = '/Balaji_Resume.pdf';
+    const url = new URL('/Balaji_Resume.pdf', window.location.origin).href;
     try {
       const res = await fetch(url, { credentials: 'same-origin' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
