@@ -1,7 +1,8 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Float, MeshDistortMaterial } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+
 import * as THREE from 'three';
 import { useDeviceDetection, getPerformanceConfig } from '@/hooks/useDeviceDetection';
 
@@ -58,6 +59,14 @@ interface FloatingShapeProps {
 const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
   const deviceInfo = useDeviceDetection();
   const performanceConfig = getPerformanceConfig(deviceInfo);
+  const [ready, setReady] = useState(false);
+  const [showCanvas, setShowCanvas] = useState(false);
+
+  // Mount Canvas a bit later to prevent gray square flash on first paint
+  useEffect(() => {
+    const t = setTimeout(() => setShowCanvas(true), 250);
+    return () => clearTimeout(t);
+  }, []);
 
   // Fallback for low-end devices or no WebGL support
   if (!performanceConfig.enable3D) {
@@ -71,7 +80,13 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
   }
 
   return (
-    <div className={`w-full h-full ${className}`}>
+    <div className={`w-full h-full ${className} pointer-events-none select-none`}>
+      {!showCanvas && (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
+        </div>
+      )}
+      {showCanvas && (
       <Canvas 
         camera={{ position: [0, 0, 5], fov: deviceInfo.isMobile ? 60 : 75 }}
         gl={{ 
@@ -81,6 +96,7 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
           preserveDrawingBuffer: false
         }}
         dpr={performanceConfig.dpr as [number, number]}
+        onCreated={() => setReady(true)}
         onError={(error) => {
           console.error('FloatingShape Canvas Error:', error);
         }}
@@ -91,6 +107,7 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
             </div>
           </div>
         }
+        className={ready ? 'opacity-80 transition-opacity duration-700' : 'opacity-0'}
       >
         <ambientLight intensity={deviceInfo.isMobile ? 0.3 : 0.5} />
         <pointLight position={[10, 10, 10]} intensity={deviceInfo.isMobile ? 0.5 : 1} />
@@ -122,6 +139,7 @@ const FloatingShape = ({ className = "" }: FloatingShapeProps) => {
           autoRotateSpeed={deviceInfo.isMobile ? 0.5 : 1}
         />
       </Canvas>
+      )}
     </div>
   );
 };

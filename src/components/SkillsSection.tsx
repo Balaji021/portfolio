@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, OrbitControls, Text } from '@react-three/drei';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+
 import * as THREE from 'three';
 import ParticleBackground from './ParticleBackground';
 import { useDeviceDetection, getPerformanceConfig } from '@/hooks/useDeviceDetection';
@@ -68,7 +69,7 @@ const FloatingParticles = ({ skill, position }: { skill: any; position: [number,
 
   return (
     <group ref={particlesRef}>
-      {Array.from({ length: 8 }).map((_, i) => {
+      {Array.from({ length: 6 }).map((_, i) => {
         const angle = (i / 8) * Math.PI * 2;
         const radius = 2.5;
         const particlePosition: [number, number, number] = [
@@ -142,6 +143,14 @@ const Skills3D = () => {
   const deviceInfo = useDeviceDetection();
   const performanceConfig = getPerformanceConfig(deviceInfo);
   const [webGLError, setWebGLError] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [showCanvas, setShowCanvas] = useState(false);
+
+  // Mount canvas slightly later to avoid layout flash and share WebGL contexts better
+  useEffect(() => {
+    const t = setTimeout(() => setShowCanvas(true), 250);
+    return () => clearTimeout(t);
+  }, []);
 
   const skills = [
     { name: 'React', color: '#61DAFB', level: 95 },
@@ -190,7 +199,13 @@ const Skills3D = () => {
   }
 
   return (
-    <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10">
+    <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 pointer-events-none select-none">
+      {!showCanvas && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
+        </div>
+      )}
+      {showCanvas && (
       <Canvas 
         camera={{ 
           position: [0, 0, deviceInfo.isMobile ? 12 : 15], 
@@ -203,6 +218,7 @@ const Skills3D = () => {
           preserveDrawingBuffer: false
         }}
         dpr={performanceConfig.dpr as [number, number]}
+        onCreated={() => setReady(true)}
         onError={(error) => {
           console.error('Three.js Canvas Error:', error);
           setWebGLError(true);
@@ -216,6 +232,7 @@ const Skills3D = () => {
             </div>
           </div>
         }
+        className={ready ? 'opacity-90 transition-opacity duration-700' : 'opacity-0'}
       >
         <ambientLight intensity={deviceInfo.isMobile ? 0.5 : 0.8} />
         <pointLight position={[20, 20, 20]} intensity={deviceInfo.isMobile ? 0.8 : 1.5} />
@@ -253,6 +270,7 @@ const Skills3D = () => {
           minDistance={deviceInfo.isMobile ? 6 : 8}
         />
       </Canvas>
+      )}
       
       {/* Overlay with instructions - hidden on mobile */}
       {!deviceInfo.isMobile && (

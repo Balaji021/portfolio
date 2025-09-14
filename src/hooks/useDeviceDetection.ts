@@ -34,12 +34,11 @@ export const useDeviceDetection = (): DeviceInfo => {
       const isTablet = width >= 768 && width < 1024;
       const isDesktop = width >= 1024;
       
-      // Low-end device detection based on various factors
+      // Low-end device detection based on conservative performance signals
+      // Note: Do NOT mark all mobile devices as low-end. Many phones handle light 3D fine.
       const isLowEnd = 
-        isMobile || 
-        dpr > 2 || 
-        navigator.hardwareConcurrency < 4 ||
-        /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        dpr > 2 ||
+        (navigator.hardwareConcurrency ? navigator.hardwareConcurrency < 4 : false);
       
       // WebGL support detection
       const canvas = document.createElement('canvas');
@@ -68,7 +67,8 @@ export const useDeviceDetection = (): DeviceInfo => {
 };
 
 export const getPerformanceConfig = (deviceInfo: DeviceInfo) => {
-  if (deviceInfo.isLowEnd || !deviceInfo.supportsWebGL) {
+  // If WebGL is unavailable, disable 3D regardless of device type
+  if (!deviceInfo.supportsWebGL) {
     return {
       enable3D: false,
       particleCount: 0,
@@ -78,7 +78,8 @@ export const getPerformanceConfig = (deviceInfo: DeviceInfo) => {
       powerPreference: 'low-power' as const,
     };
   }
-  
+
+  // Mobile: enable 3D with conservative defaults
   if (deviceInfo.isMobile) {
     return {
       enable3D: true,
@@ -104,8 +105,8 @@ export const getPerformanceConfig = (deviceInfo: DeviceInfo) => {
   // Desktop
   return {
     enable3D: true,
-    particleCount: 500,
-    quality: 'high',
+    particleCount: deviceInfo.isLowEnd ? 250 : 500,
+    quality: deviceInfo.isLowEnd ? 'medium' : 'high',
     dpr: [1, 2],
     antialias: true,
     powerPreference: 'high-performance' as const,

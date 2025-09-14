@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowDown, Download } from 'lucide-react';
 import ParticleBackground from './ParticleBackground';
 import FloatingShape from './FloatingShape';
-import TransparentParticleBackground from './TransparentParticleBackground';
 import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 
 const HeroSection = () => {
