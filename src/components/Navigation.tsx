@@ -26,6 +26,8 @@ const navItems = [
 export default function Navigation() {
   const [active, setActive] = useState('hero');
   const [isOpen, setIsOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [lastY, setLastY] = useState(0);
 
   useEffect(() => {
     const onScroll = () => {
@@ -41,6 +43,16 @@ export default function Navigation() {
           }
         }
       }
+      // Auto-hide logic
+      const y = window.scrollY;
+      const delta = y - lastY;
+      const nearTop = y < 10;
+      if (delta > 5 && y > 100) {
+        setHidden(true);
+      } else if (delta < -5 || nearTop) {
+        setHidden(false);
+      }
+      setLastY(y);
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
@@ -62,10 +74,10 @@ export default function Navigation() {
           bg-transparent py-2 px-6
         "
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: hidden ? 0 : 1, y: hidden ? -40 : 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="flex items-center space-x-8">
+        <div className="flex items-center space-x-8 glass rounded-full px-5 py-2 border shadow-sm">
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = active === item.id;
@@ -75,7 +87,9 @@ export default function Navigation() {
                 onClick={() => handleClick(item.id)}
                 className="
                   relative flex items-center space-x-2
-                  text-base font-medium text-gray-200 hover:text-white
+                  text-base font-medium
+                  text-gray-800 dark:text-gray-200
+                  hover:text-gray-900 dark:hover:text-white
                   transition-colors px-3 py-2
                 "
               >
@@ -100,7 +114,7 @@ export default function Navigation() {
         className="fixed top-4 right-4 z-50 bg-black/20 backdrop-blur-xl border border-white/10 rounded-full p-2.5 md:hidden shadow-2xl text-white hover:bg-white/10 transition-all duration-300"
         onClick={() => setIsOpen(!isOpen)}
         initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
+        animate={{ opacity: hidden ? 0 : 1, scale: hidden ? 0.9 : 1, y: hidden ? -20 : 0 }}
         transition={{ duration: 0.3 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -111,9 +125,13 @@ export default function Navigation() {
       </motion.button>
 
       {/* Desktop fixed theme toggle (top-right) */}
-      <div className="hidden md:block fixed top-4 right-4 z-50">
+      <motion.div className="hidden md:block fixed top-4 right-4 z-50"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: hidden ? 0 : 1, y: hidden ? -20 : 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <ThemeToggle inline />
-      </div>
+      </motion.div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -144,8 +162,8 @@ export default function Navigation() {
                       onClick={() => handleClick(item.id)}
                       className={`w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
                         isActiveItem
-                          ? 'text-white bg-primary/30 shadow-lg shadow-primary/25 border border-primary/20'
-                          : 'text-gray-300 hover:text-white hover:bg-white/10'
+                          ? 'text-gray-900 dark:text-white bg-primary/20 dark:bg-primary/30 shadow-lg shadow-primary/20 border border-primary/20'
+                          : 'text-gray-800 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'
                       }`}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}

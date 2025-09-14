@@ -450,7 +450,7 @@ const SkillsSection = () => {
           viewport={{ amount: 0.2 }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">Skills & Expertise</h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
+          <p className="text-lg sm:text-xl text-gray-700 dark:text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
             Core technical competencies
           </p>
           

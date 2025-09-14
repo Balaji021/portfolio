@@ -35,7 +35,7 @@ const MyJourneySection = () => {
           viewport={{ amount: 0.2 }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">My Journey</h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
+          <p className="text-lg sm:text-xl text-gray-700 dark:text-muted-foreground max-w-3xl mx-auto px-4">
             A brief timeline of milestones that shaped my path.
           </p>
         </motion.div>
@@ -48,7 +48,7 @@ const MyJourneySection = () => {
           transition={{ duration: 0.7, delay: 0.1 }}
           viewport={{ amount: 0.2 }}
         >
-          <Card className="glass p-5 sm:p-7 leading-relaxed text-muted-foreground">
+          <Card className="glass p-5 sm:p-7 leading-relaxed text-gray-600 dark:text-muted-foreground">
             <p className="mb-4">
               My journey in computer science began with a simple curiosity — how technology can solve real problems,
               reveal patterns, and build meaningful experiences. That curiosity quickly grew into a passion for

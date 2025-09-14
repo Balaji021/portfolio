@@ -28,7 +28,7 @@ const AboutSection = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-4 sm:mb-6">About Me</h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
+          <p className="text-lg sm:text-xl text-gray-700 dark:text-muted-foreground max-w-3xl mx-auto px-4">
             Passionate developer with a love for creating innovative solutions
           </p>
         </motion.div>
@@ -74,12 +74,12 @@ const AboutSection = () => {
             <Card className="glass p-6 sm:p-8 hover:shadow-glow-primary transition-all duration-300">
               <div className="space-y-4">
                 <h3 className="text-xl sm:text-2xl font-bold text-primary">Hello! I'm Balaji</h3>
-                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-700 dark:text-muted-foreground leading-relaxed">
                   I'm a passionate full-stack developer currently pursuing my Bachelor of Technology 
                   in Information Technology at Dr. N.G.P. Institute of Technology. I love working 
                   with Java, C, and web technologies to create innovative solutions and solve real-world problems.
                 </p>
-                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-700 dark:text-muted-foreground leading-relaxed">
                   With strong problem-solving skills and a commitment to continuous learning, I aim to 
                   contribute positively to forward-thinking organizations through dedication, creativity, 
                   and a proactive mindset.
@@ -94,14 +94,14 @@ const AboutSection = () => {
                 whileHover={{ scale: 1.05 }}
               >
                 <div className="text-2xl sm:text-3xl font-bold gradient-text">8.59</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">CGPA (6th Sem)</div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-muted-foreground">CGPA (6th Sem)</div>
               </motion.div>
               <motion.div
                 className="glass p-4 sm:p-6 text-center rounded-lg hover:shadow-glow-accent transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
               >
                 <div className="text-2xl sm:text-3xl font-bold gradient-text">2022</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Graduation Year</div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-muted-foreground">Graduation Year</div>
               </motion.div>
             </div>
           </motion.div>

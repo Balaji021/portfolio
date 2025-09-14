@@ -18,7 +18,7 @@ const CodingProfilesSection = () => {
       name: 'GeeksforGeeks',
       username: 'balajiselvaraj12',
       url: 'https://www.geeksforgeeks.org/user/balajiselvaraj12/',
-      problemsSolved: 380,
+      problemsSolved: 40,
       color: '#2F8D46',
       bgGradient: 'from-green-500 to-emerald-600'
     },
@@ -26,7 +26,7 @@ const CodingProfilesSection = () => {
       name: 'HackerRank',
       username: 'balajiselvaraj12',
       url: 'https://www.hackerrank.com/profile/balajiselvaraj12',
-      problemsSolved: 280,
+      Hackos: 41130,
       color: '#00EA64',
       bgGradient: 'from-green-400 to-teal-500'
     }
@@ -43,7 +43,7 @@ const CodingProfilesSection = () => {
       <div className="container mx-auto px-4 sm:px-6 z-10 max-w-full">
         <div className="text-center mb-10 sm:mb-12">
           <h2 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">Coding Profiles</h2>
-          <p className="text-lg sm:text-xl text-muted-foreground">My competitive programming journey</p>
+          <p className="text-lg sm:text-xl text-gray-700 dark:text-muted-foreground">My competitive programming journey</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -78,15 +78,24 @@ const CodingProfilesSection = () => {
                   </button>
                 </div>
 
-                {/* Metrics */}
+                {/* Metrics: Hackos for HackerRank; Problems Solved for others if available */}
                 <div className="px-5 pb-5">
                   <div className="flex items-center justify-center">
-                    <div
-                      className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold"
-                      style={{ backgroundColor: `${platform.color}1a`, color: platform.color, border: `1px solid ${platform.color}33` }}
-                    >
-                      {platform.problemsSolved} Problems Solved
-                    </div>
+                    {platform.name === 'HackerRank' ? (
+                      <div
+                        className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold"
+                        style={{ backgroundColor: `${platform.color}1a`, color: platform.color, border: `1px solid ${platform.color}33` }}
+                      >
+                        Hackos: {(platform as any).Hackos ?? (platform as any).hackos ?? (platform as any).problemsSolved}
+                      </div>
+                    ) : (typeof (platform as any).problemsSolved !== 'undefined' && (
+                      <div
+                        className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold"
+                        style={{ backgroundColor: `${platform.color}1a`, color: platform.color, border: `1px solid ${platform.color}33` }}
+                      >
+                        {(platform as any).problemsSolved} Problems Solved
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

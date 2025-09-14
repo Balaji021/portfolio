@@ -35,17 +35,17 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light theme base colors (default) */
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* Light theme base colors (default) — warmer, softer */
+    --background: 40 33% 98%; /* warm off‑white */
+    --foreground: 24 15% 15%; /* soft warm charcoal */
 
     /* Card and surface colors */
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 40 33% 98%;
+    --card-foreground: 24 15% 15%;
 
     /* Interactive elements */
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 40 33% 98%;
+    --popover-foreground: 24 15% 15%;
 
     /* Brand accents (kept same for consistency across themes) */
     --primary: 274 100% 60%;
@@ -58,16 +58,16 @@ All colors MUST be HSL.
     --accent-foreground: 0 0% 100%;
 
     /* Muted neutrals */
-    --muted: 210 16% 94%;
-    --muted-foreground: 222 14% 25%;
+    --muted: 40 20% 94%;
+    --muted-foreground: 24 20% 32%;
 
     /* Destructive */
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     /* Borders and inputs */
-    --border: 210 16% 90%;
-    --input: 210 16% 90%;
+    --border: 30 12% 85%;
+    --input: 30 12% 85%;
     --ring: 274 100% 60%;
 
     /* Gradients */
@@ -75,14 +75,14 @@ All colors MUST be HSL.
     --gradient-secondary: linear-gradient(135deg, hsl(189 100% 52%) 0%, hsl(120 70% 45%) 100%);
     --gradient-hero: linear-gradient(135deg, hsl(274 100% 60%) 0%, hsl(189 100% 52%) 50%, hsl(120 70% 45%) 100%);
 
-    /* Glows (lighter on white) */
-    --glow-primary: 0 0 24px hsl(274 100% 60% / 0.35);
-    --glow-secondary: 0 0 24px hsl(189 100% 52% / 0.35);
-    --glow-accent: 0 0 24px hsl(120 70% 45% / 0.35);
+    /* Glows (softer on light) */
+    --glow-primary: 0 0 18px hsl(274 100% 60% / 0.25);
+    --glow-secondary: 0 0 18px hsl(189 100% 52% / 0.25);
+    --glow-accent: 0 0 18px hsl(120 70% 45% / 0.25);
 
     /* Glass effects */
-    --glass-bg: hsl(0 0% 100% / 0.6);
-    --glass-border: hsl(222 14% 25% / 0.12);
+    --glass-bg: hsl(40 33% 98% / 0.78);
+    --glass-border: hsl(24 10% 20% / 0.14);
 
     --radius: 0.75rem;
 

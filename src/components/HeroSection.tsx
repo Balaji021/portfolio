@@ -80,7 +80,7 @@ const HeroSection = () => {
               Balaji S
             </motion.h1>
             <motion.p 
-              className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-2"
+              className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-muted-foreground mb-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -88,7 +88,7 @@ const HeroSection = () => {
               Software Developer
             </motion.p>
             <motion.p 
-              className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4"
+              className="text-sm sm:text-base md:text-lg text-gray-700 dark:text-muted-foreground max-w-2xl mx-auto px-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
