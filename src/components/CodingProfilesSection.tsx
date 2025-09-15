@@ -18,7 +18,7 @@ const CodingProfilesSection = () => {
       name: 'GeeksforGeeks',
       username: 'balajiselvaraj12',
       url: 'https://www.geeksforgeeks.org/user/balajiselvaraj12/',
-      problemsSolved: 40,
+      problemsSolved: 44,
       color: '#2F8D46',
       bgGradient: 'from-green-500 to-emerald-600'
     },
